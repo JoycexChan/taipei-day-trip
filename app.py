@@ -3,6 +3,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
+import json
 
 app=FastAPI()
 
@@ -10,13 +11,12 @@ app=FastAPI()
 db_config = {
     "host": "localhost",
     "user": "websiteuser",
-    "password": "websitepassword",
-    "database": "taipei-day-trip",
+    "password": "WWa@sfDD24531",
+    "database": "TDT",
     "pool_name": "mypool",
     "pool_size": 5
 }
 pool = MySQLConnectionPool(**db_config)
-
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
@@ -38,8 +38,8 @@ def get_database_connection():
     return mysql.connector.connect(
         host="localhost",
         user="websiteuser",
-        password="websitepassword",
-        database="taipei-day-trip",
+        password="WWa@sfDD24531",
+        database="TDT",
         charset='utf8mb4'
     )
 
@@ -72,16 +72,17 @@ async def get_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = N
         attractions = cursor.fetchall()
 
         # 調整圖片URL，只選擇第一個
-        for attraction in attractions:
-            if attraction['images']:
-                # 分割圖片 URLs 並選擇第一個
-                first_image_url = attraction['images'].split('|')[0]
-                attraction['images'] = [first_image_url]
-            # 提取 description 中第一個句點之前的文字
-            if attraction['description']:
-                first_sentence = attraction['description'].split('。')[0] + '。'
-                attraction['description'] = first_sentence
+        #for attraction in attractions:
+        #    if attraction['images']:
+        #        # 分割圖片 URLs 並選擇第一個
+        #        first_image_url = attraction['images'].split('|')[0]
+        #        attraction['images'] = [first_image_url]
+        #    # 提取 description 中第一個句點之前的文字
+        #    if attraction['description']:
+        #        first_sentence = attraction['description'].split('。')[0] + '。'
+        #        attraction['description'] = first_sentence
         
+
         # 重整數據格式
         formatted_attractions = [
             {
@@ -94,7 +95,7 @@ async def get_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = N
                 "mrt": attraction["MRT"],
                 "lat": attraction["latitude"],
                 "lng": attraction["longitude"],
-                "images": attraction["images"]
+                "images": json.loads(attraction["images"]) if attraction["images"] else []
             }
             for attraction in attractions
         ]
@@ -107,7 +108,7 @@ async def get_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = N
         total = cursor.fetchone()['COUNT(*)']
         next_page = page + 1 if (page + 1) * page_size < total else None
 
-        return {"nextPage": next_page, "data": formatted_attractions}
+        return {"data": formatted_attractions, "nextPage": next_page}
         #return JSONResponse(status_code=200, content={"nextPage": next_page, "data": formatted_attractions})
 
     except Exception as e:
