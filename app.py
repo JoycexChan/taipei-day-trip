@@ -137,14 +137,14 @@ async def get_attraction(attractionId: int):
             return JSONResponse(status_code=400, content={"error": True, "message": "景點編號不正確"})
 
         # 調整圖片URL，只選擇第一個
-        if attraction['images']:
-            first_image_url = attraction['images'].split('|')[0]
-            attraction['images'] = [first_image_url]
+        #if attraction['images']:
+        #    first_image_url = attraction['images'].split('|')[0]
+        #    attraction['images'] = [first_image_url]
         
         # 提取 description 中第一個句點之前的文字
-        if attraction['description']:
-            first_sentence = attraction['description'].split('。')[0] + '。'
-            attraction['description'] = first_sentence
+        #if attraction['description']:
+        #    first_sentence = attraction['description'].split('。')[0] + '。'
+        #    attraction['description'] = first_sentence
         
         # 重整數據格式
         formatted_attraction = {
@@ -157,7 +157,7 @@ async def get_attraction(attractionId: int):
             "mrt": attraction["MRT"],
             "lat": attraction["latitude"],
             "lng": attraction["longitude"],
-            "images": attraction["images"]
+            "images": json.loads(attraction["images"]) if attraction["images"] else []
         }
 
         return {"data": formatted_attraction}
