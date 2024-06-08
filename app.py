@@ -4,8 +4,11 @@ from typing import Optional
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import json
+from fastapi.staticfiles import StaticFiles
 
 app=FastAPI()
+# 服務靜態文件
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 初始化連接池
 db_config = {
@@ -31,6 +34,8 @@ async def booking(request: Request):
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
+
+
 
 
 # 連接到 MySQL 數據庫的函數

@@ -11,7 +11,7 @@
     <!-- 導航欄開始 -->
     <div class="navbar-wrapper">
       <div class="navbar">
-        <a href="#home" class="navbar-logo">台北一日遊</a>
+        <a href="#home" class="logo">台北一日遊</a>
         <div class="navbar-menu" id="navbarMenu">
           <a href="#Item1">預定行程</a>
           <a href="#Item2">登入/註冊</a>
@@ -21,8 +21,8 @@
     <!-- 導航欄結束 -->
 
     <!-- 歡迎文本開始 -->
-    <div class="welcome">
-      <div class="welcome-center-content">
+    <div class="welcome-text">
+      <div class="center-content">
         <h2>輕鬆享受台北一日悠閒</h2>
         <p>探索每個角落，體驗城市的深度旅遊行程</p>
         <form id="search-form">
@@ -34,30 +34,23 @@
       </div>
     </div>
     <!-- 歡迎文本結束 -->
-
-    <!-- 主內容區開始 -->
-    <div class="main-content">
-      <!-- 捷運站名列表開始 -->
-      <div class="mrt-stations-wrapper">
-        <span class="arrow left" id="left-arrow">
-          <img src="/static/images/Default.png" alt="Left Arrow" />
-        </span>
-        <!-- 左箭頭 -->
-        <div class="mrt-stations" id="mrt-stations"></div>
-        <span class="arrow right" id="right-arrow">
-          <img src="/static/images/Default.png" alt="Right Arrow" />
-        </span>
-        <!-- 右箭頭 -->
-      </div>
-      <!-- 捷運站名列表結束 -->
-
-      <div class="mrt-list" id="mrt-list"></div>
+    <!-- 捷運站名列表開始 -->
+    <div class="mrt-stations-wrapper">
+      <span class="arrow" id="left-arrow">
+        <img src="/static/images/Default.png" alt="Left Arrow" />
+      </span>
+      <!-- 左箭頭 -->
+      <div class="mrt-stations" id="mrt-stations"></div>
+      <span class="arrow" id="right-arrow">
+        <img src="/static/images/Default.png" alt="Right Arrow" />
+      </span>
+      <!-- 右箭頭 -->
     </div>
-    <!-- 主內容區結束 -->
+    <!-- 捷運站名列表結束 -->
+    <!-- 主內容區開始 -->
+    <div class="main-content text-20px" id="mrt-list"></div>
 
-    <!-- copyright開始 -->
-    <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
-    <!-- copyright結束 -->
+    <!-- 主內容區結束 -->
 
     <script src="/static/js/script.js"></script>
     <!-- 引入外部JavaScript文件 -->
