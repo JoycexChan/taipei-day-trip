@@ -49,7 +49,7 @@ def get_database_connection():
     )
 
 # 景點列表 API
-@app.get("/api/attractions/", response_class=JSONResponse)
+@app.get("/api/attractions{trailing_slash:path}", response_class=JSONResponse)
 async def get_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = None):
     conn = get_database_connection()
     cursor = conn.cursor(dictionary=True)
@@ -179,7 +179,7 @@ async def get_attraction(attractionId: int):
 
 
 # 捷運站列表 API
-@app.get("/api/mrts/")
+@app.get("/api/mrts{trailing_slash:path}")
 async def get_mrts():
     conn = get_database_connection()
     cursor = conn.cursor(dictionary=True)

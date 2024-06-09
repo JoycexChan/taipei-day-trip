@@ -8,24 +8,13 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const mrtStations = document.getElementById("mrt-stations");
 
-// Throttle function to limit the rate of execution
 function throttle(func, limit) {
-  let lastFunc;
-  let lastRan;
+  let lastTime = 0;
   return function () {
-    const context = this;
-    const args = arguments;
-    if (!lastRan) {
-      func.apply(context, args);
-      lastRan = Date.now();
-    } else {
-      clearTimeout(lastFunc);
-      lastFunc = setTimeout(function () {
-        if (Date.now() - lastRan >= limit) {
-          func.apply(context, args);
-          lastRan = Date.now();
-        }
-      }, limit - (Date.now() - lastRan));
+    const now = Date.now();
+    if (now - lastTime >= limit) {
+      func.apply(this, arguments);
+      lastTime = now;
     }
   };
 }
@@ -97,17 +86,25 @@ function loadMoreData(query = "") {
 window.addEventListener(
   "scroll",
   throttle(() => {
-    const currentScroll = window.scrollY || document.documentElement.scrollTop;
-    if (
-      currentScroll > lastScrollTop &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
-      nextPage &&
-      !isLoading
-    ) {
-      loadMoreData(searchInput.value.trim());
+    let currentScroll = window.scrollY || document.documentElement.scrollTop;
+    // 只在向下滾動時觸發加載
+    if (currentScroll > lastScrollTop) {
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+      if (nearBottom && nextPage && !isLoading) {
+        isLoading = true;
+        const query = searchInput.value.trim();
+        loadMoreData(query)
+          .then(() => {
+            isLoading = false;
+          })
+          .catch(() => {
+            isLoading = false;
+          });
+      }
     }
-    lastScrollTop = currentScroll;
-  }, 2000)
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // 更新最後滾動位置
+  }, 5000)
 );
 
 function loadMRTStations() {
