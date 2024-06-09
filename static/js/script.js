@@ -50,9 +50,9 @@ window.addEventListener("scroll", () => {
 
 function loadMoreData(query = "") {
   // 確保不會加載超出範圍的頁面
-  if (nextPage === null) {
-    console.log("No more pages to load.");
-    return; // 如果已經沒有更多頁面，則不進行任何操作
+  if (isLoading || nextPage === null) {
+    console.log("Request is already in progress or no more pages to load.");
+    return;
   }
 
   isLoading = true; // 開始加載數據
@@ -109,9 +109,13 @@ function loadMoreData(query = "") {
         card.appendChild(info);
         mrtList.appendChild(card);
       });
-      nextPage = data.nextPage; // 獲取下一頁
-      page++;
-      isLoading = false; // 加載完成
+      isLoading = false;
+      if (data.nextPage) {
+        page++;
+        nextPage = data.nextPage;
+      } else {
+        nextPage = null;
+      }
     })
     .catch((error) => {
       console.error("Error loading data:", error);
