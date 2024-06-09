@@ -8,7 +8,6 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const mrtStations = document.getElementById("mrt-stations");
 
-// Throttle function to limit the rate of execution
 function throttle(func, limit) {
   let lastFunc;
   let lastRan;
@@ -30,7 +29,33 @@ function throttle(func, limit) {
   };
 }
 
+const throttledScroll = throttle(() => {
+  if (
+    window.innerHeight + window.scrollY >=
+    document.body.offsetHeight - 1000
+  ) {
+    // 假設 loadMoreData() 是加載更多數據的函數
+    loadMoreData();
+  }
+}, 200);
+
+window.addEventListener("scroll", throttledScroll);
+
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    console.log("Reached the bottom of the page");
+    // 可以在這裡加載更多數據或觸發其他行為
+  }
+});
+
 function loadMoreData(query = "") {
+  // 確保不會加載超出範圍的頁面
+  if (nextPage === null) {
+    console.log("No more pages to load.");
+    return; // 如果已經沒有更多頁面，則不進行任何操作
+  }
+
+  isLoading = true; // 開始加載數據
   fetch(`/api/attractions?page=${page}&limit=${limit}&keyword=${query}`)
     .then((response) => response.json())
     .then((data) => {
@@ -93,22 +118,6 @@ function loadMoreData(query = "") {
       isLoading = false; // 發生錯誤時，重置加載標誌
     });
 }
-
-window.addEventListener(
-  "scroll",
-  throttle(() => {
-    const currentScroll = window.scrollY || document.documentElement.scrollTop;
-    if (
-      currentScroll > lastScrollTop &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
-      nextPage &&
-      !isLoading
-    ) {
-      loadMoreData(searchInput.value.trim());
-    }
-    lastScrollTop = currentScroll;
-  }, 2000)
-);
 
 function loadMRTStations() {
   fetch("/api/mrts")
