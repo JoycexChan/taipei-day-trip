@@ -4,8 +4,11 @@ from typing import Optional
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import json
+from fastapi.staticfiles import StaticFiles
 
 app=FastAPI()
+# 服務靜態文件
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 初始化連接池
 db_config = {
@@ -33,6 +36,8 @@ async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
 
 
+
+
 # 連接到 MySQL 數據庫的函數
 def get_database_connection():
     return mysql.connector.connect(
@@ -44,7 +49,7 @@ def get_database_connection():
     )
 
 # 景點列表 API
-@app.get("/api/attractions/", response_class=JSONResponse)
+@app.get("/api/attractions{trailing_slash:path}", response_class=JSONResponse)
 async def get_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = None):
     conn = get_database_connection()
     cursor = conn.cursor(dictionary=True)
@@ -174,7 +179,7 @@ async def get_attraction(attractionId: int):
 
 
 # 捷運站列表 API
-@app.get("/api/mrts/")
+@app.get("/api/mrts{trailing_slash:path}")
 async def get_mrts():
     conn = get_database_connection()
     cursor = conn.cursor(dictionary=True)
