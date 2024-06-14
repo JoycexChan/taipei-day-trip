@@ -32,6 +32,7 @@ body {
   height: 54px; /* 高度固定 */
   background-color: #ffffff; /* 設定背景色 */
   z-index: 1000; /* 層次高於一般內容 */
+  border-bottom: 1px solid #cccccc; /* 添加一條灰色底線 */
 }
 
 .navbar {
@@ -205,7 +206,7 @@ body {
   display: flex;
   overflow-x: scroll; /* 允許水平滾動 */
   white-space: nowrap; /* 防止換行 單行顯示 */
-  max-width: 100%; 
+  max-width: 100%;
   flex-grow: 1; /* 允許元素填充剩餘空間 */
   height: 50px;
   padding: 0 10px 20px 10px; /* 上0px，左右10px，下20px */
@@ -222,7 +223,7 @@ body {
   flex: 0 0 auto;
   padding: 5px 15px;
   margin-right: 10px; /* 根據需要調整間距 */
-  background-color: #ffffff; 
+  background-color: #ffffff;
   color: #666666; /* 文字顏色為灰 */
   border-radius: 5px; /* 圓角邊框 */
   font-family: "Noto Sans TC", sans-serif;
@@ -282,9 +283,8 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden; /* 隐藏溢出的内容 */
   position: relative;
-  background-color: #FFFFFF; /
+  background-color: #ffffff;
 }
-
 
 .image-overlay-wrapper {
   position: relative;
@@ -394,6 +394,13 @@ body {
   text-align: right;
   font-size: 14px;
   color: #555;
+}
+
+.attraction-link,
+.attraction-link:visited {
+  /* 直接目標 <a> 標籤 */
+  text-decoration: none; /* 移除連結底線 */
+  color: inherit; /* 繼承父元素的文字顏色，保持顏色一致 */
 }
 
 /* 版權信息樣式 */

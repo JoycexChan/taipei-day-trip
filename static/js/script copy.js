@@ -4,7 +4,7 @@ let nextPage = 0;
 let isLoading = false; // 狀態標誌，表明是否正在加載數據
 let lastScrollTop = 0; // 保存最後滾動位置
 const mrtList = document.getElementById("mrt-list");
-
+const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const mrtStations = document.getElementById("mrt-stations");
 
@@ -208,10 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function updatePageContent(attraction) {
-  const contentElement = document.getElementById("content");
-  const jsonString = JSON.stringify(attraction, null, 2); // Format JSON for display
-  const pre = document.createElement("pre");
-  pre.textContent = jsonString;
-  contentElement.innerHTML = ""; // Clear previous content
-  content.appendChild(pre); // Display new data
+  // 這裡填充如何用景點數據更新頁面的細節
+  console.log(attraction); // 示範用
+  // 實際更新頁面內容的代碼應該在這裡實現
 }

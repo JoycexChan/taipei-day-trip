@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index</title>
+    <title>Attraction</title>
     <link rel="stylesheet" href="/static/CSS/styles.css" />
     <!-- 連結外部CSS檔案，用於樣式設定 -->
   </head>
@@ -21,37 +21,29 @@
     <!-- 導航欄結束 -->
 
     <!-- 歡迎文本開始 -->
-    <div class="welcome">
+    <div class="welcome_attraction">
+      <img src="IMAGE_URL" alt="Attraction Image" class="welcome-image" />
       <div class="welcome-center-content">
-        <h2>輕鬆享受台北一日悠閒</h2>
-        <p>探索每個角落，體驗城市的深度旅遊行程</p>
-        <form id="search-form">
-          <input type="text" placeholder="輸入景點查詢名稱" id="search-input" />
-          <button type="submit">
-            <img src="/static/images/searchicon.png" alt="Search" />
-          </button>
+        <h1 id="attraction-name">景點名稱</h1>
+        <h2 id="attraction-category-mrt">捷運站名 / Category</h2>
+        <form id="booking-form">
+          <input type="date" required />
+          <input type="time" required />
+          <input type="number" placeholder="價格" readonly />
+          <button type="submit">預定導覽</button>
         </form>
       </div>
     </div>
     <!-- 歡迎文本結束 -->
 
     <!-- 主內容區開始 -->
-    <div class="main-content">
-      <!-- 捷運站名列表開始 -->
-      <div class="mrt-stations-wrapper">
-        <span class="arrow left" id="left-arrow">
-          <img src="/static/images/Default.png" alt="Left Arrow" />
-        </span>
-        <!-- 左箭頭 -->
-        <div class="mrt-stations" id="mrt-stations"></div>
-        <span class="arrow right" id="right-arrow">
-          <img src="/static/images/Default.png" alt="Right Arrow" />
-        </span>
-        <!-- 右箭頭 -->
-      </div>
-      <!-- 捷運站名列表結束 -->
+    <hr />
+    <!-- 灰色分隔線 -->
 
-      <div class="mrt-list" id="mrt-list"></div>
+    <div class="main-content">
+      <p id="attraction-description">景點描述</p>
+      <p id="attraction-address">地址信息</p>
+      <p id="attraction-transport">交通信息</p>
     </div>
     <!-- 主內容區結束 -->
 
@@ -59,7 +51,7 @@
     <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
     <!-- copyright結束 -->
 
-    <script src="/static/js/script.js"></script>
+    <script src="/static/js/script_attraction.js"></script>
     <!-- 引入外部JavaScript文件 -->
   </body>
 </html>
