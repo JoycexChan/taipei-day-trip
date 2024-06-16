@@ -770,13 +770,10 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-input[type="radio"]:checked::before {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background-color: #448899;
-  border-radius: 50%;
+/* 勾選時的樣式 */
+input[type="radio"]:checked {
+  background-color: #007bff; /* 藍色背景 */
+  border: 2px solid #fff; /* 白色邊框 */
 }
 
 label {
