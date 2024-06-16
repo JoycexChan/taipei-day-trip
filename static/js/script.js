@@ -61,6 +61,10 @@ function loadMoreData(query = "") {
     .then((data) => {
       if (page === 0) mrtList.innerHTML = ""; // 清空列表以顯示新搜索結果
       data.data.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = `/attraction/${item.id}`; // 確保此路徑與服務器路由設置匹配
+        link.className = "attraction-link"; // 設置 CSS 以進一步美化鏈接
+
         const card = document.createElement("div");
         card.className = "attraction-card";
         card.style.position = "relative"; // 確保卡片是相對定位的，以便 .overlay 可以正確放置
@@ -107,7 +111,8 @@ function loadMoreData(query = "") {
         info.appendChild(category);
 
         card.appendChild(info);
-        mrtList.appendChild(card);
+        link.appendChild(card); // 將 card 加入到 link 中
+        mrtList.appendChild(link); // 將 link 加到列表中
       });
       isLoading = false;
       if (data.nextPage) {

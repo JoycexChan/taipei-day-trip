@@ -1,11 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attraction</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attraction</title>
+    <link rel="stylesheet" href="/static/CSS/styles.css" />
+  </head>
+  <body>
+    <!-- 導航欄開始 -->
+    <div class="navbar-wrapper">
+      <div class="navbar-content">
+        <a href="/" class="navbar-logo">台北一日遊</a>
+        <div class="navbar-menu-content">
+          <a href="#Item1">預定行程</a>
+          <a href="#Item2">登入/註冊</a>
+        </div>
+      </div>
+    </div>
+    <!-- 導航欄結束 -->
+    <div class="main-wrapper">
+      <div class="welcome-attraction-wrapper">
+        <div class="image-slider-wrapper">
+          <button id="prev-button">
+            <img src="/static/images/btn_leftArrow.png" alt="Previous" />
+          </button>
+          <div class="image-container">
+            <img src="" alt="Attraction Image" class="welcome-image" />
+          </div>
+          <button id="next-button">
+            <img src="/static/images/btn_rightArrow.png" alt="Next" />
+          </button>
+          <div id="image-indicators"></div>
+        </div>
+        <div class="welcome-text-content">
+          <div class="welcome-attraction">
+            <h2 id="attraction-name">景點名稱</h2>
+          </div>
+          <div class="welcome-category-mrt">
+            <h2 id="attraction-category-mrt">捷運站名 / Category</h2>
+          </div>
+
+          <div class="welcome-guidedtours">
+            <div class="welcome-guidedtours-text1">訂購導覽行程</div>
+            <div class="welcome-guidedtours-text2">
+              以此景點為中心的一日行程，帶您探索城市角落故事
+            </div>
+            <div class="welcome-guidedtours-date">
+              <label for="date">選擇日期：</label>
+              <input type="date" id="date" placeholder="yyyy/mm/dd" required />
+            </div>
+            <div class="welcome-guidedtours-time">
+              <div class="time-label">選擇時間：</div>
+              <div class="time-option">
+                <input
+                  type="radio"
+                  id="morning"
+                  name="time-slot"
+                  value="morning"
+                />
+                <label for="morning">上半天</label>
+              </div>
+              <div class="time-option">
+                <input
+                  type="radio"
+                  id="afternoon"
+                  name="time-slot"
+                  value="afternoon"
+                />
+                <label for="afternoon">下半天</label>
+              </div>
+            </div>
+
+            <div class="welcome-guidedtours-charge">
+              <label for="price">導覽費用：</label>
+              <input
+                type="text"
+                id="price"
+                placeholder="新台幣 ？ 元"
+                readonly
+              />
+            </div>
+            <div class="welcome-guidedtours-reserve">
+              <button type="submit">開始預約行程</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div class="attraction-details">
+        <div class="attraction-description"></div>
+        <h3>景點地址：</h3>
+        <div class="attraction-address"></div>
+        <h3>交通方式：</h3>
+        <div class="attraction-transport"></div>
+      </div>
+    </div>
+    <!-- copyright開始 -->
+    <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
+    <!-- copyright結束 -->
+    <script src="/static/js/script_attraction.js"></script>
+  </body>
 </html>
