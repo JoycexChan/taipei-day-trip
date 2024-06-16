@@ -1084,8 +1084,7 @@ h3 + .attraction-transport {
 
   .welcome-guidedtours-text2 {
     line-height: 1.6; /* 增加行高，1.6 是常用的行高值，可根據實際需要調整 */
-    white-space: normal; /* 允許自動換行 */
-    overflow-wrap: break-word; /* 確保長單詞可以斷行 */
+    width: 88%;
     padding-top: 15px;
     padding-bottom: 15px;
   }
