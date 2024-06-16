@@ -1,46 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 從URL中提取景點ID
   const attractionId = window.location.pathname.split("/").pop();
+  const imageElement = document.querySelector(".welcome-image");
+  const indicatorsContainer = document.getElementById("image-indicators");
+  let images = [];
+  let currentIndex = 0;
 
-  // 定義更新頁面的函數
-  function updatePageContent(attraction) {
-    document.getElementById("attraction-name").textContent = attraction.name;
-    document.getElementById(
-      "attraction-category-mrt"
-    ).textContent = `${attraction.mrt} / ${attraction.category}`;
-    document.getElementById("attraction-description").textContent =
-      attraction.description;
-    document.getElementById("attraction-address").textContent =
-      attraction.address;
-    document.getElementById("attraction-transport").textContent =
-      attraction.transport;
-
-    // 確保 images 字段是一個解析過的 JSON 如果它是字符串
-    const images =
-      typeof attraction.images === "string"
-        ? JSON.parse(attraction.images)
-        : attraction.images;
-    setupImageSlider(images); // 呼叫圖片輪播函數
+  function updateImage() {
+    imageElement.src = images[currentIndex];
+    updateIndicators();
   }
 
-  function setupImageSlider(images) {
-    const imageElement = document.querySelector(".welcome-image");
-    let currentIndex = 0;
-
-    function showCurrentImage() {
-      imageElement.src = images[currentIndex];
-    }
-
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      showCurrentImage();
-    }
-
-    showCurrentImage();
-    setInterval(nextImage, 3000); // 每3秒切換圖片
+  function updateIndicators() {
+    indicatorsContainer.innerHTML = ""; // 清除現有的指示器
+    images.forEach((img, index) => {
+      const dot = document.createElement("span");
+      dot.className =
+        "image-indicator" + (index === currentIndex ? " active-indicator" : "");
+      indicatorsContainer.appendChild(dot);
+    });
   }
 
-  // 獲取景點詳情
+  document.getElementById("next-button").addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateImage();
+  });
+
+  document.getElementById("prev-button").addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateImage();
+  });
+
   fetch(`/api/attraction/${attractionId}`)
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch attraction details");
@@ -48,7 +37,21 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then((data) => {
       if (data && data.data) {
-        updatePageContent(data.data);
+        // 更新圖片數據
+        images = data.data.images;
+        updateImage();
+
+        // 更新景點名稱和捷運/類別信息
+        document.getElementById("attraction-name").textContent = data.data.name;
+        document.getElementById(
+          "attraction-category-mrt"
+        ).textContent = `${data.data.category} at ${data.data.mrt}`;
+        document.querySelector(".attraction-description").textContent =
+          data.data.description;
+        document.querySelector(".attraction-address").textContent =
+          data.data.address;
+        document.querySelector(".attraction-transport").textContent =
+          data.data.transport;
       } else {
         console.error("No data returned from the API.");
       }
@@ -56,12 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => {
       console.error("Error loading the attraction details:", error);
     });
+});
 
-  // 處理預定表單提交
-  const bookingForm = document.getElementById("booking-form");
-  bookingForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    console.log("Booking form submitted");
-    // 這裡應該加入與預定相關的邏輯，例如驗證、發送數據等
+// 價格
+document.querySelectorAll('input[name="time-slot"]').forEach((input) => {
+  input.addEventListener("change", function () {
+    document.getElementById("price").value =
+      this.value === "morning" ? "新台幣 2000 元" : "新台幣 2500 元";
   });
 });

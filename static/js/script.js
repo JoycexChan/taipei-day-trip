@@ -4,7 +4,7 @@ let nextPage = 0;
 let isLoading = false; // 狀態標誌，表明是否正在加載數據
 let lastScrollTop = 0; // 保存最後滾動位置
 const mrtList = document.getElementById("mrt-list");
-
+const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const mrtStations = document.getElementById("mrt-stations");
 
@@ -61,10 +61,9 @@ function loadMoreData(query = "") {
     .then((data) => {
       if (page === 0) mrtList.innerHTML = ""; // 清空列表以顯示新搜索結果
       data.data.forEach((item) => {
-        // 把整個 card 包裹在一個 <a> 標籤中
         const link = document.createElement("a");
-        link.href = `/attraction/${item.id}`;
-        link.className = "attraction-link";
+        link.href = `/attraction/${item.id}`; // 確保此路徑與服務器路由設置匹配
+        link.className = "attraction-link"; // 設置 CSS 以進一步美化鏈接
 
         const card = document.createElement("div");
         card.className = "attraction-card";
@@ -111,10 +110,9 @@ function loadMoreData(query = "") {
         category.textContent = item.category;
         info.appendChild(category);
 
-        card.appendChild(imageOverlayWrapper);
         card.appendChild(info);
-        link.appendChild(card); // 把 card 加到 link 內部
-        mrtList.appendChild(link); // 最後把 link 加到 mrtList 內
+        link.appendChild(card); // 將 card 加入到 link 中
+        mrtList.appendChild(link); // 將 link 加到列表中
       });
       isLoading = false;
       if (data.nextPage) {
@@ -178,40 +176,3 @@ document.getElementById("left-arrow").addEventListener("click", () => {
 document.getElementById("right-arrow").addEventListener("click", () => {
   mrtStations.scrollBy({ left: 1000, behavior: "smooth" });
 });
-
-// attraction.html
-document.addEventListener("DOMContentLoaded", function () {
-  // 確定當前頁面是景點詳情頁
-  if (window.location.pathname.startsWith("/attraction/")) {
-    const attractionId = window.location.pathname.split("/")[2]; // 從URL中提取ID
-
-    fetch(`/api/attraction/${attractionId}`) // 使用提取的ID來發起API請求
-      .then((response) => {
-        // 檢查是否找到資源，若未找到則重定向至首頁
-        if (!response.ok) {
-          if (response.status === 404) {
-            window.location.href = "/"; // 如果景點不存在，重定向到首頁
-          }
-          throw new Error("Attraction not found");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && data.data) {
-          updatePageContent(data.data); // 使用API返回的數據更新頁面
-        }
-      })
-      .catch((error) =>
-        console.error("Error loading the attraction details:", error)
-      );
-  }
-});
-
-function updatePageContent(attraction) {
-  const contentElement = document.getElementById("content");
-  const jsonString = JSON.stringify(attraction, null, 2); // Format JSON for display
-  const pre = document.createElement("pre");
-  pre.textContent = jsonString;
-  contentElement.innerHTML = ""; // Clear previous content
-  content.appendChild(pre); // Display new data
-}
