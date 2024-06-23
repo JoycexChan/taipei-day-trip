@@ -14,11 +14,72 @@
         <a href="/" class="navbar-logo">台北一日遊</a>
         <div class="navbar-menu-content">
           <a href="#Item1">預定行程</a>
-          <a href="#Item2">登入/註冊</a>
+          <a href="#Item2" id="loginRegisterLink">登入 / 註冊</a>
+          <a href="#Item2" id="logoutLink" style="display: none">登出系統</a>
         </div>
       </div>
     </div>
     <!-- 導航欄結束 -->
+
+    <!-- 模態窗口 -->
+    <div id="myModal" class="modal">
+      <div class="modal-container">
+        <div class="modal-header"></div>
+        <div class="modal-content">
+          <div class="modal-body">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+              <h2>登入會員帳號</h2>
+              <input
+                type="text"
+                id="loginEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="login()">登入帳戶</button>
+              <p id="loginSuccess" class="success"></p>
+              <p id="loginError" class="error"></p>
+
+              <button type="button" class="register" onclick="showRegister()">
+                還沒有帳戶？點此註冊
+              </button>
+            </form>
+            <form id="registerForm" style="display: none">
+              <h2>註冊會員帳號</h2>
+              <input
+                type="text"
+                id="registerName"
+                name="name"
+                placeholder="輸入姓名"
+              />
+              <input
+                type="text"
+                id="registerEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="registerPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="register()">註冊新帳戶</button>
+              <p id="registerError" class="error"></p>
+              <button type="button" class="login" onclick="showLogin()">
+                已經有帳戶了？點此登入
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 歡迎文本開始 -->
     <div class="welcome">

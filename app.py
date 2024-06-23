@@ -1,4 +1,5 @@
-from fastapi import *
+
+from fastapi import FastAPI, Request, HTTPException, Query   
 from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 import mysql.connector
@@ -6,9 +7,14 @@ from mysql.connector.pooling import MySQLConnectionPool
 import json
 from fastapi.staticfiles import StaticFiles
 
+from user_routes import router as user_router
+
 app=FastAPI()
 # 服務靜態文件
 app.mount("/static", StaticFiles(directory="static"), name="static")
+# 包含用戶相關的路由
+app.include_router(user_router, prefix="/api")
+
 
 # 初始化連接池
 db_config = {
@@ -202,6 +208,7 @@ async def get_mrts():
 
         return JSONResponse(status_code=200, content={"data": mrt_station_names})
     except Exception as e:
+        print("Exception occurred:", str(e))  # 打印異常信息
         raise HTTPException(status_code=500, detail={"error": True, "message": "伺服器內部錯誤"})
     finally:
         cursor.close()
