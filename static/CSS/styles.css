@@ -69,6 +69,7 @@ body {
 }
 
 .navbar-menu-content {
+  width: 175px;
   height: 34px; /* 固定高度 */
   display: flex; /* 使用Flex布局 */
   justify-content: space-between; /* 內部元素間距均勻分布 */
@@ -78,8 +79,10 @@ body {
 .navbar-menu-content a {
   line-height: 13.3px;
   width: auto; /* 或者給一個固定值，看情況調整 */
-  padding: 9.75px; /* 上下padding為10px */
-
+  padding-top: 10px; /* 上下padding為10px */
+  padding-bottom: 10px; /* 上下padding為10px */
+  padding-right: 9.5px; /* 上下padding為10px */
+  padding-left: 9.5px; /* 上下padding為10px */
   color: #666666; /* 文字顏色為黑色 */
   font-size: 16px;
   font-weight: 500;
@@ -1254,4 +1257,24 @@ h3 + .attraction-transport {
   line-height: 36px; /* 行高設為10px */
   margin: 0;
   padding: 0; /* 移除內距 */
+}
+
+.link-container {
+  position: relative;
+  width: 91px;
+  height: 34px;
+}
+
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.link.visible {
+  opacity: 1;
+  visibility: visible;
 }
