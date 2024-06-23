@@ -25,13 +25,18 @@
   }
 
   // 根據登入狀態更新UI
+  // 根據登入狀態更新UI
   function updateUIBasedOnLogin(isLoggedIn) {
     if (isLoggedIn) {
       logoutLink.style.display = "block";
+      logoutLink.classList.add("visible");
       loginRegisterLink.style.display = "none";
+      loginRegisterLink.classList.remove("visible");
     } else {
       logoutLink.style.display = "none";
+      logoutLink.classList.remove("visible");
       loginRegisterLink.style.display = "block";
+      loginRegisterLink.classList.add("visible");
     }
   }
 
@@ -113,12 +118,9 @@
         alert("Registration failed: " + error.message);
       });
   }
+  // 將需要全局訪問的函數附加到 window 對象上
+  window.login = login;
+  window.register = register;
+  window.showLoginRegister = showLoginRegister;
+  window.showLogout = showLogout;
 })();
-
-// 此部分代碼通常放置於 HTML 文件的其他部分或其他 JS 文件中
-document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
-    document.getElementById("logoutLink").style.display = "block";
-    document.getElementById("loginRegisterLink").style.display = "none";
-  }, 1000); // 假設資料加載完成後1秒顯示內容
-});

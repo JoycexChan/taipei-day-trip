@@ -1,82 +1,65 @@
 ///////////註冊登入功能
 (function () {
   // 模態窗口控制代碼
-  let modal = document.getElementById("myModal");
-  let link = document.getElementById("loginRegisterLink");
-  let span = document.getElementsByClassName("close")[0];
+  const modal = document.getElementById("myModal");
+  const loginRegisterLink = document.getElementById("loginRegisterLink");
+  const logoutLink = document.getElementById("logoutLink");
+  const closeSpan = document.getElementsByClassName("close")[0];
 
   function checkLoginStatus() {
-    let token = localStorage.getItem("token");
-    console.log("Checking login status, token:", token); // 打印 token 值
+    const token = localStorage.getItem("token");
     if (!token) {
       showLoginRegister();
-      return;
-    }
-
-    fetch("/api/user/auth", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Unauthorized");
-        }
-        return response.json();
+    } else {
+      fetch("/api/user/auth", {
+        method: "GET",
+        headers: { Authorization: "Bearer " + token },
       })
-      .then((data) => {
-        if (data && data.data && data.data.id) {
-          showLogout();
-        } else {
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.data && data.data.id) {
+            showLogout();
+          } else {
+            showLoginRegister();
+          }
+        })
+        .catch((error) => {
+          console.error("Error during token validation:", error);
           showLoginRegister();
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        showLoginRegister();
-      });
+        });
+    }
   }
 
   function showLoginRegister() {
-    loginRegisterLink.classList.add("visible"); // 確保登入/註冊按鈕可見
-    loginRegisterLink.style.display = "block"; // 使用 display:block 來顯示按鈕
-    if (logoutLink) {
-      logoutLink.classList.remove("visible"); // 確保登出按鈕不可見
-      logoutLink.style.display = "none"; // 使用 display:none 來隱藏按鈕
-    }
+    loginRegisterLink.style.display = "block";
+    loginRegisterLink.classList.add("visible");
+    logoutLink.style.display = "none";
+    logoutLink.classList.remove("visible");
   }
 
   function showLogout() {
-    document.getElementById("loginRegisterLink").style.display = "none";
-    let logoutLink = document.getElementById("logoutLink");
-    if (!logoutLink) {
-      logoutLink = document.createElement("a");
-      logoutLink.id = "logoutLink";
-      logoutLink.href = "#";
-      logoutLink.innerText = "登出系統";
-      logoutLink.classList.add("link"); // 確保應用適當的樣式
-      document.querySelector(".navbar-menu-content").appendChild(logoutLink);
-    }
     logoutLink.style.display = "block";
-    logoutLink.classList.add("visible"); // 確保可見性
-
-    // 只在首次創建時添加事件監聽器
-    if (!logoutLink.getAttribute("listener")) {
-      logoutLink.addEventListener("click", logout);
-      logoutLink.setAttribute("listener", "true"); // 標記監聽器已添加
-    }
+    logoutLink.classList.add("visible");
+    loginRegisterLink.style.display = "none";
+    loginRegisterLink.classList.remove("visible");
+    logoutLink.addEventListener("click", logout);
   }
 
   function logout() {
-    console.log("Logging out, removing token"); // 添加打印以確認登出時被調用
+    console.log("Logging out, removing token");
     localStorage.removeItem("token");
-    showLoginRegister(); // 顯示登入/註冊界面
+    showLoginRegister();
   }
 
-  // 當文件加載完成後，檢查用戶登入狀態
-  document.addEventListener("DOMContentLoaded", function () {
-    checkLoginStatus();
+  document.addEventListener("DOMContentLoaded", checkLoginStatus);
+  loginRegisterLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    modal.style.display = "block";
+    showLogin();
+  });
+
+  closeSpan.addEventListener("click", () => {
+    modal.style.display = "none";
   });
 
   // 登入功能

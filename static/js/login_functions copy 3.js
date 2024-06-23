@@ -39,11 +39,10 @@
   }
 
   function showLoginRegister() {
-    loginRegisterLink.classList.add("visible"); // 確保登入/註冊按鈕可見
-    loginRegisterLink.style.display = "block"; // 使用 display:block 來顯示按鈕
+    document.getElementById("loginRegisterLink").style.display = "block";
+    let logoutLink = document.getElementById("logoutLink");
     if (logoutLink) {
-      logoutLink.classList.remove("visible"); // 確保登出按鈕不可見
-      logoutLink.style.display = "none"; // 使用 display:none 來隱藏按鈕
+      logoutLink.style.display = "none";
     }
   }
 
@@ -55,23 +54,16 @@
       logoutLink.id = "logoutLink";
       logoutLink.href = "#";
       logoutLink.innerText = "登出系統";
-      logoutLink.classList.add("link"); // 確保應用適當的樣式
       document.querySelector(".navbar-menu-content").appendChild(logoutLink);
     }
     logoutLink.style.display = "block";
-    logoutLink.classList.add("visible"); // 確保可見性
-
-    // 只在首次創建時添加事件監聽器
-    if (!logoutLink.getAttribute("listener")) {
-      logoutLink.addEventListener("click", logout);
-      logoutLink.setAttribute("listener", "true"); // 標記監聽器已添加
-    }
+    logoutLink.addEventListener("click", logout);
   }
 
   function logout() {
     console.log("Logging out, removing token"); // 添加打印以確認登出時被調用
     localStorage.removeItem("token");
-    showLoginRegister(); // 顯示登入/註冊界面
+    showLoginRegister();
   }
 
   // 當文件加載完成後，檢查用戶登入狀態
