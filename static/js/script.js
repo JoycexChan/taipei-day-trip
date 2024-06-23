@@ -255,14 +255,14 @@ function login() {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.access_token) {
+      if (data.token) {
         localStorage.setItem("token", data.access_token);
         modal.style.display = "none";
         showLogout();
         document.getElementById("loginError").className = "success";
       } else {
         document.getElementById("loginError").textContent =
-          "登入失敗：" + data.detail;
+          "登入失敗：" + (data.message || "未知錯誤");
         document.getElementById("loginError").className = "error";
       }
     })
@@ -289,23 +289,31 @@ function register() {
       response.json().then((data) => ({ status: response.status, body: data }))
     )
     .then((data) => {
-      if (data.status === 200) {
+      if (data.status === 200 && data.body.ok) {
         document.getElementById("loginEmail").value = email;
         document.getElementById("loginPassword").value = password;
         showLogin();
         let loginSuccessElement = document.getElementById("loginSuccess");
-        loginSuccessElement.textContent = "註冊成功，請登入";
+        loginSuccessElement.textContent = "註冊成功，請登入系統";
         document.getElementById("loginSuccess").className = "success";
-      } else {
+      } else if (data.status === 400) {
         document.getElementById("registerError").textContent =
           "註冊失敗：" + (data.body.message || "未知錯誤");
+        document.getElementById("registerError").className = "error";
+      } else if (data.status === 500) {
+        document.getElementById("registerError").textContent =
+          "註冊失敗：伺服器內部錯誤";
+        document.getElementById("registerError").className = "error";
+      } else {
+        document.getElementById("registerError").textContent =
+          "註冊失敗：未知錯誤";
         document.getElementById("registerError").className = "error";
       }
     })
     .catch((error) => {
       console.error("Error:", error);
       document.getElementById("registerError").textContent =
-        "註冊失敗：系統錯誤";
+        "註冊失敗：伺服器內部錯誤";
       document.getElementById("registerError").className = "error";
     });
 }

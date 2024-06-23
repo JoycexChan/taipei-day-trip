@@ -1,11 +1,16 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 import mysql.connector
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import jwt
 import datetime
+from datetime import datetime, timedelta
+import logging
+
 from fastapi.responses import JSONResponse
+from typing import Optional 
+
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -24,12 +29,24 @@ def get_database_connection():
         charset='utf8mb4'
     )
 
-SECRET_KEY = "YOUR_SECRET_KEY"  # 确保一致
-ALGORITHM = "HS256"  # 确保一致
+SECRET_KEY = "YOUR_SECRET_KEY"  
+ALGORITHM = "HS256"  
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/user/auth")
+class OptionalOAuth2PasswordBearer(OAuth2PasswordBearer):
+    def __init__(self, tokenUrl: str, auto_error: bool = False):
+        super().__init__(tokenUrl=tokenUrl, auto_error=auto_error)
 
-# 创建访问令牌
+    async def __call__(self, request: Request) -> Optional[str]:
+        authorization: str = request.headers.get("Authorization")
+        if not authorization:
+            return None
+        return await super().__call__(request)
+
+# 現在初始化此 schema，並將 auto_error 設置為 False
+oauth2_scheme = OptionalOAuth2PasswordBearer(tokenUrl="/api/user/auth", auto_error=False)
+
+
+# 創建訪問令牌
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
@@ -52,24 +69,49 @@ async def register_user(user: UserRegistration):
         cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
                        (user.name, user.email, hashed_password))
         conn.commit()
-        return JSONResponse(status_code=200, content={"message": "User registered successfully"})
-    except mysql.connector.Error as e:
+        return JSONResponse(status_code=200, content={"ok": True})
+    except mysql.connector.Error:
         conn.rollback()
-        return JSONResponse(status_code=500, content={"error": True, "message": str(e)})
+        return JSONResponse(status_code=500, content={"error": True, "message": "伺服器內部錯誤"})
     finally:
         cursor.close()
         conn.close()
 
 # 用戶登錄
+
 @router.put("/user/auth")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(status_code=401, detail="電子郵件或者密碼錯誤")
-    access_token = create_access_token(data={"user_id": user["id"]})
-    return {"access_token": access_token, "token_type": "bearer"}
+    try:
+        user = authenticate_user(form_data.username, form_data.password)
+        if not user:
+            return JSONResponse(
+                status_code=400, 
+                content={"error": True, "message": "帳號或密碼錯誤"}
+            )
 
-# 验证用户身份
+        access_token_expires = timedelta(days=7)
+        access_token = create_access_token(
+            data={"user_id": user["id"]}, 
+            expires_delta=access_token_expires
+        )
+
+        return {"token": access_token}
+
+    except Exception as e:
+        logging.error(f"Internal server error: {str(e)}")  # 增加錯誤日誌
+        return JSONResponse(
+            status_code=500, 
+            content={"error": True, "message": "伺服器內部錯誤"}
+        )
+
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta if expires_delta else datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# 驗證用戶身份
 def authenticate_user(email: str, password: str):
     conn = get_database_connection()
     cursor = conn.cursor(dictionary=True)
@@ -81,27 +123,29 @@ def authenticate_user(email: str, password: str):
         return False
     return user
 
-# 获取当前登录的用户信息
+# 獲取當前登入的用戶信息
 @router.get("/user/auth")
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: Optional[str] = Depends(oauth2_scheme)):
+    if token is None:
+        return {"data": None}
+    
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get("user_id")
         if user_id is None:
-            raise HTTPException(status_code=401, detail="Could not validate credentials")
+            return {"data": None}
         
+        # 從數據庫中查找用戶信息
         conn = get_database_connection()
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT id, name, email FROM users WHERE id = %s", (user_id,))
         user = cursor.fetchone()
-        if user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        return {"data": user}
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token has expired")
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Could not validate credentials")
-    finally:
         cursor.close()
         conn.close()
+
+        if user:
+            return {"data": user}
+        else:
+            return {"data": None}
+    except jwt.PyJWTError:
+        return {"data": None}
