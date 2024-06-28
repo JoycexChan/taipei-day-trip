@@ -69,6 +69,7 @@ body {
 }
 
 .navbar-menu-content {
+  width: 175px;
   height: 34px; /* 固定高度 */
   display: flex; /* 使用Flex布局 */
   justify-content: space-between; /* 內部元素間距均勻分布 */
@@ -78,8 +79,10 @@ body {
 .navbar-menu-content a {
   line-height: 13.3px;
   width: auto; /* 或者給一個固定值，看情況調整 */
-  padding: 9.75px; /* 上下padding為10px */
-
+  padding-top: 10px; /* 上下padding為10px */
+  padding-bottom: 10px; /* 上下padding為10px */
+  padding-right: 9.5px; /* 上下padding為10px */
+  padding-left: 9.5px; /* 上下padding為10px */
   color: #666666; /* 文字顏色為黑色 */
   font-size: 16px;
   font-weight: 500;
@@ -770,13 +773,10 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-input[type="radio"]:checked::before {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background-color: #448899;
-  border-radius: 50%;
+/* 勾選時的樣式 */
+input[type="radio"]:checked {
+  background-color: #007bff; /* 藍色背景 */
+  border: 2px solid #fff; /* 白色邊框 */
 }
 
 label {
@@ -1096,4 +1096,185 @@ h3 + .attraction-transport {
   .copyright {
     bottom: 0px;
   }
+}
+
+/* 模態窗口的基本樣式 */
+.modal {
+  display: none; /* 隱藏模態窗口 */
+  position: fixed; /* 固定定位 */
+  z-index: 1; /* 位於頂層 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* 可滾動的 */
+  background-color: rgba(0, 0, 0, 0.4); /* 背景透明度 */
+}
+
+/* 模態窗口容器 */
+.modal-container {
+  margin: 80px auto; /* 中央顯示 */
+  width: 340px; /* 寬度 */
+  height: 100%; /* 高度 */
+  background-color: transparent; /* 背景顏色 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 模態窗口頭部 */
+.modal-header {
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  height: 10px;
+  width: 100%; /* 設置寬度為 100% */
+  border-top-left-radius: 5px; /* 上面兩個角是圓的 */
+  border-top-right-radius: 5px; /* 上面兩個角是圓的 */
+  margin-bottom: 0px; /* 取消底部間距 */
+}
+
+/* 模態窗口內容 */
+.modal-content {
+  background-color: #fefefe;
+  width: 100%; /* 設置寬度為 100% */
+  box-shadow: 0px 4px 60px 0px #aaaaaa; /* 陰影 */
+  border-bottom-left-radius: 5px; /* 下面兩個角是圓的 */
+  border-bottom-right-radius: 5px; /* 下面兩個角是圓的 */
+  position: relative;
+  padding: 0px;
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+}
+
+/* 模態窗口內容 */
+.modal-body {
+  padding: 0px;
+  background-color: white;
+
+  width: 310px;
+  margin: 15px auto;
+  position: relative;
+}
+
+/* 關閉按鈕 */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 表單標題 */
+.modal-body h2 {
+  text-align: center;
+  margin: 0; /* 取消默認的標題間距 */
+  height: 27px; /* 設置高度 */
+  margin-bottom: 15px; /* 下間距 */
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #666666;
+}
+
+/* 輸入框 */
+.modal-body input[type="text"],
+.modal-body input[type="password"] {
+  width: 100%;
+  height: 47px; /* 設置高度 */
+  padding: 12px;
+  margin-bottom: 10px; /* 下間距 */
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+  text-align: left;
+  color: #757575;
+}
+
+/* 登入按鈕 */
+.modal-body button[type="button"] {
+  background-color: #448899;
+  color: white;
+  height: 47px; /* 設置高度 */
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 5px; /* 为按钮设置所有边距为零 */
+  border-radius: 5px;
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* 註冊按鈕 */
+
+.modal-body button.register,
+.modal-body button.login {
+  background-color: #ffffff;
+  height: 22px; /* 設置高度 */
+  color: #666666;
+  margin: 0; /* 为按钮设置所有边距为零 */
+  margin-top: 5px; /* 为按钮设置所有边距为零 */
+  padding: 0; /* 为按钮设置所有内边距为零 */
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+}
+
+/* 錯誤信息 */
+.error {
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  line-height: 36px; /* 行高設為10px */
+  margin: 0; /* 移除邊距 */
+  padding: 0; /* 移除內距 */
+}
+
+.success {
+  color: green;
+  text-align: center;
+  font-size: 16px;
+  line-height: 36px; /* 行高設為10px */
+  margin: 0;
+  padding: 0; /* 移除內距 */
+}
+
+.link-container {
+  position: relative;
+  width: 91px;
+  height: 34px;
+}
+
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.link.visible {
+  opacity: 1;
+  visibility: visible;
 }
