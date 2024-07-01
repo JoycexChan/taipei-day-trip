@@ -1378,104 +1378,12 @@ h3 + .attraction-transport {
     text-overflow: ellipsis; /* 溢出顯示省略符號 */
   }
 
-  /*booking*/
-  /*booking*/
-
   .booking-main-content {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
+    width: 100%; /* 寬度設為 100% */
   }
 
   .booking-detail-0 {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
-    margin: 0 auto; /* 水平居中顯示 */
-    padding: 0 15px; /* 添加適當的內邊距以避免內容貼近邊緣 */
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-  }
-
-  .booking-detail-0 p {
-    line-height: 20px; /* 增加行高，使文字間有更多空間 */
-  }
-
-  .booking-detail-2,
-  .booking-detail-3 {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
-    margin: 0 auto; /* 水平居中顯示 */
-    padding: 0 15px; /* 添加適當的內邊距以避免內容貼近邊緣 */
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-  }
-
-  .booking-detail-1 {
-    width: 100%; /* 圖片容器寬度設為 100% */
-    flex-direction: column; /* 堆疊元素以避免橫向超出 */
-    align-items: center; /* 元素居中對齊 */
-    margin-bottom: 50px;
-  }
-
-  .booking-image-container {
-    margin: 0 auto; /* 水平居中顯示 */
-    width: 95%; /* 圖片容器寬度設為 100% */
-    height: 400px;
-    object-fit: cover; /* 保持圖片比例 */
-  }
-
-  .booking-image-container img {
-    width: 95%; /* 圖片容器寬度設為 100% */
-    object-fit: cover; /* 保持圖片比例 */
-  }
-
-  .booking-info {
-    position: relative;
-    width: 95%; /* 圖片容器寬度設為 100% */
-    margin: 0 auto; /* 水平居中顯示 */
-    margin-top: 20px; /* 確保與上方元素有足夠的空間 */
-    padding: 15px; /* 增加內邊距，防止內容貼近邊緣 */
-  }
-
-  .booking-detail-1-h2,
-  .booking-detail-1-p {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .delete-button {
-    position: absolute; /* 設置絕對定位 */
-    top: 184px;
-    right: 10px; /* 距離右方 10px */
-    width: 30px; /* 設置按鈕寬度 */
-    height: 30px; /* 設置按鈕高度 */
-  }
-
-  .booking-detail-3 {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .booking-detail-2-h3,
-  .contact-info-form {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .divider1 {
-    margin-top: 410px;
-  }
-
-  .booking-detail-2-h4 {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-    margin-bottom: 40px;
-    line-height: 23.17px;
-  }
-
-  .booking-detail-3 {
-    margin-bottom: 40px;
-  }
-  .booking-detail-4 {
-    width: 95%; /* 確保元素寬度與容器寬度一致 */
-    height: 100px;
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-    margin-bottom: 40px;
+    width: 100%; /* 寬度設為 100% */
   }
 }
 
@@ -1612,100 +1520,46 @@ h3 + .attraction-transport {
 
   /*booking*/
 
-  .booking-main-content {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-  }
-
-  .booking-detail-0 {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
-    margin: 0 auto; /* 水平居中顯示 */
-    padding: 0 15px; /* 添加適當的內邊距以避免內容貼近邊緣 */
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-  }
-
-  .booking-detail-0 p {
-    line-height: 20px; /* 增加行高，使文字間有更多空間 */
-  }
-
+  .booking-main-content,
+  .booking-detail-0,
   .booking-detail-2,
   .booking-detail-3 {
     width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
     margin: 0 auto; /* 水平居中顯示 */
     padding: 0 15px; /* 添加適當的內邊距以避免內容貼近邊緣 */
     box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
   }
 
   .booking-detail-1 {
-    width: 100%; /* 圖片容器寬度設為 100% */
     flex-direction: column; /* 堆疊元素以避免橫向超出 */
     align-items: center; /* 元素居中對齊 */
-    margin-bottom: 50px;
   }
 
-  .booking-image-container {
-    margin: 0 auto; /* 水平居中顯示 */
-    width: 95%; /* 圖片容器寬度設為 100% */
-    height: 200px;
-    object-fit: cover; /* 保持圖片比例 */
-  }
-
-  .booking-image-container img {
-    width: 95%; /* 圖片容器寬度設為 100% */
+  .image-container,
+  #attraction-image {
+    width: 100%; /* 圖片容器寬度設為 100% */
+    height: auto; /* 高度自動 */
     object-fit: cover; /* 保持圖片比例 */
   }
 
   .booking-info {
-    position: relative;
-    width: 95%; /* 圖片容器寬度設為 100% */
-    margin: 0 auto; /* 水平居中顯示 */
-    margin-top: 20px; /* 確保與上方元素有足夠的空間 */
-    padding: 15px; /* 增加內邊距，防止內容貼近邊緣 */
-  }
-
-  .booking-detail-1-h2,
-  .booking-detail-1-p {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .delete-button {
-    position: absolute; /* 設置絕對定位 */
-    top: 184px;
-    right: 10px; /* 距離右方 10px */
-    width: 30px; /* 設置按鈕寬度 */
-    height: 30px; /* 設置按鈕高度 */
-  }
-
-  .booking-detail-3 {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .booking-detail-2-h3,
-  .contact-info-form {
-    width: 95%; /* 圖片容器寬度設為 100% */
-  }
-
-  .divider1 {
-    margin-top: 210px;
+    width: 100%; /* 文字信息框寬度設為 100% */
   }
 
   .booking-detail-2-h4 {
-    width: 100%; /* 確保元素寬度與容器寬度一致 */
-    height: auto;
+    width: 100%; /* 設置寬度為容器的 100% */
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5; /* 增加行高以改善可讀性 */
+    text-align: left;
+    color: #666; /* 文字顏色 */
+    white-space: normal; /* 允許換行 */
+    overflow-wrap: break-word; /* 斷字換行 */
+    padding: 10px; /* 添加一些內邊距 */
     box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-    margin-bottom: 40px;
-    line-height: 23.17px;
   }
 
-  .booking-detail-3 {
-    margin-bottom: 40px;
-  }
-  .booking-detail-4 {
-    width: 95%; /* 確保元素寬度與容器寬度一致 */
-    height: 100px;
-    box-sizing: border-box; /* 包括內邊距在內的寬度計算 */
-    margin-bottom: 40px;
+  .form-group {
+    width: 100px;
   }
 }

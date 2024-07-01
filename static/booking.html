@@ -1,11 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking</title>
+    <link rel="stylesheet" href="/static/CSS/styles.css" />
+    <script src="/static/js/login_functions.js" defer></script>
+    <script src="/static/js/script_booking.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄開始 -->
+    <div class="navbar-wrapper">
+      <div class="navbar-content">
+        <a href="/" class="navbar-logo">台北一日遊</a>
+        <div class="navbar-menu-content">
+          <a href="/booking" id="bookTrip" class="booking-link">預定行程</a>
+          <div id="linkContainer" class="link-container">
+            <a href="#Item2" id="loginRegisterLink" class="link">登入/註冊</a>
+            <a href="#Item2" id="logoutLink" class="link" style="display: none"
+              >登出系統</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 導航欄結束 -->
+    <!-- 模態窗口 -->
+    <div id="myModal" class="modal">
+      <div class="modal-container">
+        <div class="modal-header"></div>
+        <div class="modal-content">
+          <div class="modal-body">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+              <h2>登入會員帳號</h2>
+              <input
+                type="text"
+                id="loginEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="login()">登入帳戶</button>
+              <p id="loginSuccess" class="success"></p>
+              <p id="loginError" class="error"></p>
+
+              <button type="button" class="register" onclick="showRegister()">
+                還沒有帳戶？點此註冊
+              </button>
+            </form>
+            <form id="registerForm" style="display: none">
+              <h2>註冊會員帳號</h2>
+              <input
+                type="text"
+                id="registerName"
+                name="name"
+                placeholder="輸入姓名"
+              />
+              <input
+                type="text"
+                id="registerEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="registerPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="register()">註冊新帳戶</button>
+              <p id="registerError" class="error"></p>
+              <button type="button" class="login" onclick="showLogin()">
+                已經有帳戶了？點此登入
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-main-content">
+      <div class="booking-detail-0">
+        <p>您好，<span id="user-name"></span>，待預訂的行程如下：</p>
+      </div>
+      <div id="nobooking" class="booking-detail-0-no">目前沒有任何待預訂的行程</div>
+      <div class="booking-detail-1">
+        <div class="booking-image-container"><img id="attraction-image" src="" alt="景點圖片" /></div>
+        <div class="booking-info">
+          <img
+            id="delete-booking"
+            class="delete-button"
+            src="/static/images/icon_delete.png"
+            alt="刪除"
+          />
+
+          <div class="booking-detail-1-h2" id="attraction-name">
+
+          </div>
+
+          <div class="booking-detail-1-p">
+            <span class="label">日期： </span><span id="booking-date"></span>
+          </div>
+
+          <div class="booking-detail-1-p">
+            <span class="label">時間： </span><span id="booking-time"></span>
+          </div>
+
+          <div class="booking-detail-1-p">
+            <span class="label">價格： </span><span id="booking-price"></span>
+          </div>
+
+          <div class="booking-detail-1-p">
+            <span class="label">地點： </span
+            ><span id="attraction-address"></span>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="divider1"></div>
+
+      <div class="booking-detail-2">
+        <div class="booking-detail-2-h3">您的聯絡資料</div>
+        <form id="contact-info-form">
+          <div class="form-group">
+            <label for="contact-name">聯絡姓名：</label>
+            <input type="text" id="contact-name" placeholder="Yakko" />
+          </div>
+          <div class="form-group">
+            <label for="contact-email">連絡信箱：</label>
+            <input
+              type="email"
+              id="contact-email"
+              placeholder="wehelp@pada-x.com"
+            />
+          </div>
+          <div class="form-group">
+            <label for="contact-phone">手機號碼：</label>
+            <input type="tel" id="contact-phone" placeholder="手機號碼" />
+          </div>
+        </form>
+        <div class="booking-detail-2-h4">
+          請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+        </div>
+      </div>
+
+      <div class="divider2"></div>
+
+      <div class="booking-detail-3">
+        <div class="booking-detail-2-h3">信用卡付款資訊</div>
+        <form id="payment-info-form">
+          <div class="form-group">
+            <label for="card-number">卡片號碼：</label>
+            <input
+              type="text"
+              id="card-number"
+              placeholder="**** **** **** ****"
+            />
+          </div>
+          <div class="form-group">
+            <label for="card-expiry">過期時間：</label>
+            <input type="text" id="card-expiry" placeholder="MM / YY" />
+          </div>
+          <div class="form-group">
+            <label for="card-cvv">驗證密碼：</label>
+            <input type="text" id="card-cvv" placeholder="CVV" />
+          </div>
+        </form>
+      </div>
+
+      <div class="divider3"></div>
+
+      <div class="booking-detail-4">
+        <div class="booking-detail-4-h3">總價：</span><span id="total-price"></span></div>
+        <button id="confirm-booking">確認訂購並付款</button>
+      </div>
+    </div>
+
+    <!-- copyright開始 -->
+    <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
+    <!-- copyright結束 -->
+  </body>
 </html>

@@ -1,10 +1,12 @@
 ///////////註冊登入功能
 (function () {
-  // 模態窗口控制代碼
-  let modal = document.getElementById("myModal");
-  let link = document.getElementById("loginRegisterLink");
-  let span = document.getElementsByClassName("close")[0];
+  // 初始化 DOM 元素
+  let modal = document.getElementById("myModal"); // 登入模態窗口
+  let link = document.getElementById("loginRegisterLink"); // 登入/註冊連結
+  let bookTripLink = document.getElementById("bookTrip"); // 獲取預定行程鏈接
+  let span = document.getElementsByClassName("close")[0]; // 關閉按鈕（模態窗口）
 
+  // 檢查用戶的登入狀態
   function checkLoginStatus() {
     let token = localStorage.getItem("token");
     console.log("Checking login status, token:", token); // 打印 token 值
@@ -38,6 +40,7 @@
       });
   }
 
+  // 顯示登入/註冊選項
   function showLoginRegister() {
     loginRegisterLink.classList.add("visible"); // 確保登入/註冊按鈕可見
     loginRegisterLink.style.display = "block"; // 使用 display:block 來顯示按鈕
@@ -47,6 +50,7 @@
     }
   }
 
+  // 顯示登出選項
   function showLogout() {
     document.getElementById("loginRegisterLink").style.display = "none";
     let logoutLink = document.getElementById("logoutLink");
@@ -68,18 +72,71 @@
     }
   }
 
+  // 顯示登出選項
   function logout() {
     console.log("Logging out, removing token"); // 添加打印以確認登出時被調用
     localStorage.removeItem("token");
     showLoginRegister(); // 顯示登入/註冊界面
   }
 
-  // 當文件加載完成後，檢查用戶登入狀態
+  // 事件監聽：當 DOM 加載完成後，檢查用戶登入狀態
   document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus();
   });
 
-  // 登入功能
+  // 事件監聽：登入/註冊和預定行程的點擊事件處理
+  link.addEventListener("click", showModal); // 登入/註冊按鈕點擊事件
+  bookTripLink.addEventListener("click", showModal); // 預定行程按鈕點擊事件
+
+  // 顯示模態窗口
+  function showModal(event) {
+    event.preventDefault(); // 阻止默認行為
+    modal.style.display = "block";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("registerForm").style.display = "none";
+  }
+
+  // 单独检查是否已登录，返回布尔值
+  async function isLoggedIn() {
+    let token = localStorage.getItem("token");
+    if (!token) {
+      return false;
+    }
+    try {
+      let response = await fetch("/api/user/auth", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Unauthorized");
+      }
+      let data = await response.json();
+      return data && data.data && data.data.id; // 如果用户ID存在，则认为已登录
+    } catch (error) {
+      console.error("Error checking login status:", error);
+      return false;
+    }
+  }
+
+  // 異步處理點擊事件:未登入，顯示登入/註冊模態窗口;已登入且點擊的是「預定行程」鏈接，則重定向到預訂頁面
+  // 处理登录/注册和预定行程的点击事件
+  async function handleLinkClick(event) {
+    event.preventDefault();
+    const loggedIn = await isLoggedIn(); // 使用新的函数检查是否已登录
+    if (!loggedIn) {
+      showModal(); // 如果未登录，显示登录模态窗口
+    } else if (event.target === bookTripLink) {
+      window.location.href = "/booking"; // 如果已登录，且点击的是预定行程，跳转到预定页面
+    }
+  }
+
+  //事件監聽器設置:未登入，顯示登入/註冊模態窗口;已登入且點擊的是「預定行程」鏈接，則重定向到預訂頁面
+  link.addEventListener("click", handleLinkClick);
+  bookTripLink.addEventListener("click", handleLinkClick);
+
+  // 登入功能實現
   function login() {
     let email = document.getElementById("loginEmail").value;
     let password = document.getElementById("loginPassword").value;
@@ -114,7 +171,7 @@
       });
   }
 
-  // 註冊功能
+  // 註冊功能實現
   function register() {
     let name = document.getElementById("registerName").value;
     let email = document.getElementById("registerEmail").value;
@@ -169,6 +226,7 @@
     document.getElementById("loginSuccess").textContent = "";
     document.getElementById("registerError").textContent = "";
   }
+
   // 切換回登入表單
   function showLogin() {
     document.getElementById("loginForm").style.display = "block";
@@ -178,17 +236,12 @@
     document.getElementById("registerError").textContent = "";
   }
 
-  link.onclick = function (event) {
-    event.preventDefault();
-    modal.style.display = "block";
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("registerForm").style.display = "none";
-  };
-
+  // 處理模態窗口的關閉事件
   span.onclick = function () {
     modal.style.display = "none";
   };
 
+  // 處理點擊模態窗口外部區域以關閉窗口
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
