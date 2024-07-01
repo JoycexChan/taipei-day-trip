@@ -10,7 +10,6 @@ body {
   font-family: "Noto Sans TC", sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 body {
@@ -112,7 +111,6 @@ body {
   align-items: center; /* 垂直置中 */
   justify-content: center; /* 水平置中 */
   color: white; /* 文字顏色設為白色 */
-  overflow: hidden; /* 隱藏超出部分，用於裁剪 */
   margin-top: 54px; /* 上邊距為54px */
 }
 
@@ -1270,12 +1268,6 @@ h3 + .attraction-transport {
     height: 197px;
     overflow: hidden;
     width: 100%;
-  }
-
-  .welcome-guidedtours-text2 {
-    white-space: nowrap; /* 不允許換行 */
-    overflow: hidden; /* 隱藏溢出部分 */
-    text-overflow: ellipsis; /* 溢出顯示省略符號 */
   }
 }
 
