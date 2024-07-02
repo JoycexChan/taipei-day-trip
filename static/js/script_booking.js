@@ -1,13 +1,52 @@
+//[1]初始加載預定數據 [2]初始加載用戶名稱 [3]取消預訂垃圾桶 [4]登出功能
+// [1]初始加載預定數據和用戶名稱
+import { isLoggedIn } from "./1_auth_helpers.js";
+
+// 初始加載用戶名稱
+document.addEventListener("DOMContentLoaded", function () {
+  checkLoginAndUpdateUsername();
+});
+
+function checkLoginAndUpdateUsername() {
+  const user = localStorage.getItem("user");
+  console.log("localStorage contents:", localStorage); // 打印 localStorage 的內容
+  if (user) {
+    try {
+      const userData = JSON.parse(user);
+      if (userData && userData.name) {
+        document.getElementById("user-name").textContent = userData.name;
+        console.log("User name updated on the page.");
+      } else {
+        console.log("No user data available.");
+      }
+    } catch (error) {
+      console.error("Failed to parse user data:", error);
+    }
+  } else {
+    console.log("No user data found in localStorage.");
+  }
+}
+
+// 初始加載預定數據與用戶名稱
 document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "/"; // 重定向到首頁
+    return;
+  }
+
   try {
-    const response = await fetch("/api/booking", {
+    // 加載預定數據（同時包含用戶數據）
+    const bookingResponse = await fetch("/api/booking", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: "Bearer " + token,
       },
     });
-    const bookingData = await response.json();
-    if (response.ok) {
-      const attraction = bookingData.data.attraction; // 確保使用正確的路徑訪問attraction對象
+
+    const bookingData = await bookingResponse.json();
+    if (bookingResponse.ok) {
+      // 處理預定數據
+      const attraction = bookingData.data.attraction;
       if (attraction) {
         document.getElementById("nobooking").style.display = "none";
         document.getElementById("attraction-name").textContent =
@@ -39,50 +78,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.querySelector(".divider3").style.display = "none";
     }
   } catch (error) {
-    console.error("Error loading the booking details:", error);
+    console.error("Error loading the booking details or user details:", error);
     alert("無法加載預訂信息：" + error.message);
   }
 });
 
-//使用者名稱
-document.addEventListener("DOMContentLoaded", function () {
-  checkLoginAndUpdateUsername();
-});
-
-function checkLoginAndUpdateUsername() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.log("No token found, user not logged in.");
-    return;
-  }
-
-  fetch("/api/user/auth", {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch user details");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if (data && data.data && data.data.name) {
-        const userNameElement = document.getElementById("user-name");
-        userNameElement.textContent = data.data.name;
-        console.log("User name updated on the page.");
-      } else {
-        console.log("No name available in the response.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching user details:", error);
-    });
-}
-
-//垃圾桶
+//取消預訂垃圾桶
 document
   .getElementById("delete-booking")
   .addEventListener("click", function () {
@@ -114,5 +115,6 @@ document
 document.getElementById("logoutLink").addEventListener("click", function () {
   localStorage.removeItem("token");
   localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("user");
   window.location.href = "/";
 });

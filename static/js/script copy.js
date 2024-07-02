@@ -1,5 +1,3 @@
-//[1] 下拉加載和 [2] 捷運站快捷鍵 待整理
-
 let page = 0;
 const limit = 12;
 let nextPage = 0;

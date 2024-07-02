@@ -1,4 +1,9 @@
+// [2]初始化 DOM 元素 [3]檢查用戶登入狀態
+//[4] 設置事件監聽器 [5] 登入功能實現 [6] 註冊功能實現 [6]表單切換及模態窗口操作
 ///////////註冊登入功能
+import { isLoggedIn } from "./1_auth_helpers.js"; // 假設使用 ES6 模塊語法
+import { showModal } from "./2_modal_functions.js"; // 假設使用 ES6 模塊語法
+
 (function () {
   // 初始化 DOM 元素
   let modal = document.getElementById("myModal"); // 登入模態窗口
@@ -29,6 +34,7 @@
       })
       .then((data) => {
         if (data && data.data && data.data.id) {
+          localStorage.setItem("user", JSON.stringify(data.data)); // 保存用戶數據
           showLogout();
         } else {
           showLoginRegister();
@@ -85,40 +91,11 @@
   });
 
   // 事件監聽：登入/註冊和預定行程的點擊事件處理
-  link.addEventListener("click", showModal); // 登入/註冊按鈕點擊事件
-  bookTripLink.addEventListener("click", showModal); // 預定行程按鈕點擊事件
-
-  // 顯示模態窗口
-  function showModal(event) {
-    event.preventDefault(); // 阻止默認行為
-    modal.style.display = "block";
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("registerForm").style.display = "none";
-  }
-
-  // 单独检查是否已登录，返回布尔值
-  async function isLoggedIn() {
-    let token = localStorage.getItem("token");
-    if (!token) {
-      return false;
-    }
-    try {
-      let response = await fetch("/api/user/auth", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Unauthorized");
-      }
-      let data = await response.json();
-      return data && data.data && data.data.id; // 如果用户ID存在，则认为已登录
-    } catch (error) {
-      console.error("Error checking login status:", error);
-      return false;
-    }
-  }
+  //link.addEventListener("click", showModal); // 登入/註冊按鈕點擊事件
+  //bookTripLink.addEventListener("click", showModal); // 預定行程按鈕點擊事件
+  // 事件監聽：登入/註冊和預定行程的點擊事件處理
+  link.addEventListener("click", handleLinkClick); // 登入/註冊按鈕點擊事件
+  bookTripLink.addEventListener("click", handleLinkClick); // 預定行程按鈕點擊事件
 
   // 異步處理點擊事件:未登入，顯示登入/註冊模態窗口;已登入且點擊的是「預定行程」鏈接，則重定向到預訂頁面
   // 处理登录/注册和预定行程的点击事件
@@ -154,6 +131,14 @@
           console.log("Token received:", data.token); // 在此處打印 token
           localStorage.setItem("token", data.token);
           console.log("Stored token:", localStorage.getItem("token")); // 在此處打印儲存的 token
+          if (data.data) {
+            localStorage.setItem("user", JSON.stringify(data.data)); // 正確保存用戶數據
+            console.log("Stored user data:", localStorage.getItem("user")); // 在此處打印儲存的用戶數據
+          }
+          // 調用 checkLoginStatus 來更新用戶資料
+          checkLoginStatus();
+
+          // 隱藏模態窗口並顯示登出選項
           modal.style.display = "none";
           showLogout();
           document.getElementById("loginError").className = "success";
@@ -236,17 +221,6 @@
     document.getElementById("registerError").textContent = "";
   }
 
-  // 處理模態窗口的關閉事件
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  // 處理點擊模態窗口外部區域以關閉窗口
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
   // 將需要全局訪問的函數附加到 window 對象上
   window.login = login;
   window.register = register;

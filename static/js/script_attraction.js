@@ -1,3 +1,8 @@
+//[1]頁面加載與圖片顯示 [2]價格變更 [3]預約行程
+
+// 當頁面加載完成後執行的函數
+import { isLoggedIn } from "./1_auth_helpers.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const attractionId = window.location.pathname.split("/").pop();
   const imageElement = document.querySelector(".welcome-image");
@@ -5,11 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
   let images = [];
   let currentIndex = 0;
 
+  // 更新顯示的圖片
   function updateImage() {
     imageElement.src = images[currentIndex];
     updateIndicators();
   }
 
+  // 更新圖片指示器
   function updateIndicators() {
     indicatorsContainer.innerHTML = ""; // 清除現有的指示器
     images.forEach((img, index) => {
@@ -20,16 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // 更新圖片指示器
   document.getElementById("next-button").addEventListener("click", () => {
     currentIndex = (currentIndex + 1) % images.length;
     updateImage();
   });
 
+  // 上一張圖片按鈕點擊事件
   document.getElementById("prev-button").addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateImage();
   });
 
+  // 獲取景點詳細資訊
   fetch(`/api/attraction/${attractionId}`)
     .then((response) => {
       if (!response.ok) throw new Error("Failed to fetch attraction details");
@@ -61,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// 價格
+// 價格根據時間段變化
 document.querySelectorAll('input[name="time-slot"]').forEach((input) => {
   input.addEventListener("change", function () {
     document.getElementById("price").value =
@@ -69,35 +79,12 @@ document.querySelectorAll('input[name="time-slot"]').forEach((input) => {
   });
 });
 
-// 預約行程
-async function checkIfLoggedIn() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return false; // 如果没有token，則視為未登入
-  }
-  try {
-    const response = await fetch("/api/user/auth", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Unauthorized");
-    }
-    const data = await response.json();
-    return data && data.data && data.data.id;
-  } catch (error) {
-    console.error("Error:", error);
-    return false;
-  }
-}
-
+// 預約行程按鈕點擊事件
 document
   .getElementById("startBooking")
   .addEventListener("click", async function (event) {
     event.preventDefault();
-    const loggedIn = await checkIfLoggedIn();
+    const loggedIn = await isLoggedIn();
     if (!loggedIn) {
       // 顯示登入窗口
       document.getElementById("myModal").style.display = "block";
@@ -109,6 +96,7 @@ document
     }
   });
 
+// 創建預訂
 async function createBooking() {
   const date = document.getElementById("date").value;
   const timeSlot = document.querySelector(
@@ -132,7 +120,7 @@ async function createBooking() {
   };
 
   // 打印即將發送的數據及其類型
-  console.log("Sending booking data:");
+  console.log("Sending booking data:", bookingData);
   console.log(
     "attractionId:",
     bookingData.attraction_id,
