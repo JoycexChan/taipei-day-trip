@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, HTTPException, status
 from pydantic import BaseModel
 import mysql.connector
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import jwt
+from jwt import ExpiredSignatureError, PyJWTError  # 確保導入了這些異常
 import datetime
 from datetime import datetime, timedelta
 import logging
@@ -19,6 +20,14 @@ class UserRegistration(BaseModel):
     name: str
     email: str
     password: str
+
+class Booking(BaseModel):
+    attraction_id: int
+    date: str
+    time: str
+    price: int
+
+bookings = []
 
 def get_database_connection():
     return mysql.connector.connect(
@@ -47,12 +56,54 @@ oauth2_scheme = OptionalOAuth2PasswordBearer(tokenUrl="/api/user/auth", auto_err
 
 
 # 創建訪問令牌
-def create_access_token(data: dict):
+def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
-    expire = datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
+    if expires_delta is None:
+        expires_delta = timedelta(days=7)
+    expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authorization token is missing",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("user_id")
+        if not user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token",
+                headers={"WWW-Authenticate": "Bearer"}
+            )
+        return get_user_from_database(user_id)
+    except (ExpiredSignatureError, PyJWTError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Token error: {str(e)}",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+
+
+def get_user_from_database(user_id: str):
+    conn = get_database_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT id, name, email FROM users WHERE id = %s", (user_id,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user
+
+
+
+
 
 @router.post("/user")
 async def register_user(user: UserRegistration):
@@ -104,12 +155,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             content={"error": True, "message": "伺服器內部錯誤"}
         )
 
-def create_access_token(data: dict, expires_delta: timedelta = None):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta if expires_delta else datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
 
 # 驗證用戶身份
 def authenticate_user(email: str, password: str):
@@ -149,3 +194,5 @@ async def get_current_user(token: Optional[str] = Depends(oauth2_scheme)):
             return {"data": None}
     except jwt.PyJWTError:
         return {"data": None}
+    
+

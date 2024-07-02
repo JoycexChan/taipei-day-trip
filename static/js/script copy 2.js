@@ -1,15 +1,16 @@
-//[1] 下拉加載和 [2] 捷運站快捷鍵 待整理
-
+//初始化變數
 let page = 0;
 const limit = 12;
 let nextPage = 0;
 let isLoading = false; // 狀態標誌，表明是否正在加載數據
-let lastScrollTop = 0; // 保存最後滾動位置
 const mrtList = document.getElementById("mrt-list");
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const mrtStations = document.getElementById("mrt-stations");
 
+//首頁下拉加載功能
+//防抖函數(少函數調用的頻率，防止在滾動事件中頻繁調用 loadMoreData 函數。)
+//向下滾動避免重複載入
 function throttle(func, limit) {
   let lastFunc;
   let lastRan;
@@ -31,12 +32,13 @@ function throttle(func, limit) {
   };
 }
 
+//滾動監聽和數據加載
+//設置滾動事件監聽器來檢測是否滾動到頁面底部，並在接近底部時通過 throttle 控制調用 loadMoreData 函數。
 const throttledScroll = throttle(() => {
   if (
     window.innerHeight + window.scrollY >=
     document.body.offsetHeight - 1000
   ) {
-    // 假設 loadMoreData() 是加載更多數據的函數
     loadMoreData();
   }
 }, 200);
@@ -46,10 +48,22 @@ window.addEventListener("scroll", throttledScroll);
 window.addEventListener("scroll", () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
     console.log("Reached the bottom of the page");
-    // 可以在這裡加載更多數據或觸發其他行為
   }
 });
 
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 20) {
+    // 微調以觸發滾動
+    if (nextPage) {
+      // 只有在有下一頁的情況下才加載
+      const query = searchInput.value.trim();
+      loadMoreData(query);
+    }
+  }
+});
+
+//加載更多數據
+//異步請求頁面數據，並根據返回的數據更新頁面內容 加載狀態 分頁邏輯。
 function loadMoreData(query = "") {
   // 確保不會加載超出範圍的頁面
   if (isLoading || nextPage === null) {
@@ -130,6 +144,8 @@ function loadMoreData(query = "") {
     });
 }
 
+//快捷捷運站左右按鈕
+//加載捷運站數據
 function loadMRTStations() {
   fetch("/api/mrts")
     .then((response) => response.json())
@@ -148,27 +164,13 @@ function loadMRTStations() {
     });
 }
 
+//表單提交事件 並根據輸入的查詢字串加載數據
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const query = searchInput.value.trim();
   page = 0;
   loadMoreData(query);
 });
-
-window.addEventListener("scroll", () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 20) {
-    // 微調以觸發滾動
-    if (nextPage) {
-      // 只有在有下一頁的情況下才加載
-      const query = searchInput.value.trim();
-      loadMoreData(query);
-    }
-  }
-});
-
-// 初始加載數據和捷運站名
-loadMoreData();
-loadMRTStations();
 
 // 左右箭頭滾動捷運站名列表
 document.getElementById("left-arrow").addEventListener("click", () => {
@@ -178,3 +180,7 @@ document.getElementById("left-arrow").addEventListener("click", () => {
 document.getElementById("right-arrow").addEventListener("click", () => {
   mrtStations.scrollBy({ left: 1000, behavior: "smooth" });
 });
+
+// 初始加載數據和捷運站名
+loadMoreData();
+loadMRTStations();

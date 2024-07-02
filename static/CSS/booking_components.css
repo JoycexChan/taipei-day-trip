@@ -1,0 +1,449 @@
+/*booking*/
+
+.booking-main-content {
+  margin: 0px auto;
+  margin-top: 94px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中 */
+  justify-content: flex-start; /* 從頂部開始排列 */
+  font-family: "Noto Sans TC", sans-serif; /* 使用 Noto Sans TC 字體 */
+  width: 100%; /* 設置寬度為100% */
+  max-width: 1200px; /* 最大寬度1200px */
+  color: #666666;
+  box-sizing: border-box; /* 確保 padding 和 border 包含在寬度內 */
+}
+
+.booking-main-content * {
+  color: #666666; /* 設置字體顏色為灰色 */
+}
+
+.booking-main-content-in {
+  width: 1000px;
+
+  align-items: center; /* 水平居中 */
+}
+
+/* 文字信息的設置 */
+.booking-info {
+  width: 700px;
+  position: relative; /* 設置相對定位 */
+  margin-left: 30px; /* 為圖片和文字之間添加間隔 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中 */
+}
+
+.booking-info-img {
+  position: absolute; /* 設置絕對定位 */
+  top: 0px; /* 距離上方 10px */
+  right: 0px; /* 距離右方 10px */
+  width: 30px; /* 設置按鈕寬度 */
+  height: 30px; /* 設置按鈕高度 */
+  cursor: pointer; /* 設置鼠標樣式 */
+}
+
+.divider1,
+.divider2,
+.divider3 {
+  width: 1200px;
+  height: 1px;
+  background-color: #e8e8e8;
+  margin-bottom: 40px;
+}
+
+.booking-detail-0 {
+  display: flex;
+  width: 1000px;
+  height: 27px;
+  margin-bottom: 30px;
+}
+
+.booking-detail-0in {
+  margin-top: 5.5px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: left;
+}
+
+.booking-detail-0-no {
+  height: 24px;
+
+  margin-bottom: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+}
+
+.booking-detail-1 {
+  width: 980px;
+  height: 200px;
+  margin-bottom: 40px;
+}
+.booking-detail-1in {
+  width: 980px;
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+.booking-detail-1-h2 {
+  width: 100%; /* 使其填滿容器 */
+  height: 24px;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+  text-align: left;
+  color: #448899;
+  margin-bottom: 20px;
+}
+
+.booking-detail-1-h2 * {
+  color: #448899;
+}
+
+.booking-detail-1-p {
+  width: 100%; /* 使其填滿容器 */
+  height: 24px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.booking-detail-1-p .label {
+  font-weight: bold;
+}
+
+.booking-detail-2 {
+  width: 980px;
+  height: 227px;
+  margin-left: 10px;
+  margin-bottom: 40px;
+}
+.booking-detail-2in {
+  margin-bottom: 0px;
+}
+
+.booking-detail-2-h3 {
+  width: 980px;
+  height: 24px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  width: 980px;
+  height: 38px;
+  margin-bottom: 15px;
+}
+.form-group label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+}
+
+.form-group input {
+  height: 18px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc; /* 設置邊框顏色 */
+  box-shadow: none; /* 去除陰影 */
+}
+
+.booking-detail-2-h4 {
+  width: 980px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+  text-align: left;
+
+  margin-top: 5px;
+}
+
+.booking-detail-3 {
+  width: 980px;
+  height: 188px;
+  margin-left: 10px;
+  margin-bottom: 40px;
+}
+
+.booking-detail-3in {
+  margin-bottom: 0px;
+}
+.booking-detail-4 {
+  position: relative; /* 設置相對定位 */
+  width: 980px;
+  height: 100px;
+  margin-bottom: 40px;
+}
+
+.booking-detail-4in {
+  margin-bottom: 0px;
+}
+
+.booking-detail-4-h3 {
+  position: absolute; /* 設置絕對定位 */
+  top: 0px;
+  right: 0px;
+  width: 174px;
+  height: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+  text-align: right;
+}
+
+.booking-detail-4 button {
+  position: absolute; /* 設置絕對定位 */
+  top: 42px;
+  right: 0px;
+  width: 173px;
+  height: 36px;
+
+  border-radius: 5px;
+  background-color: #448899;
+  color: white;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  border: 1px solid #448899; /* 設置邊框顏色 */
+  box-shadow: none; /* 去除陰影 */
+}
+
+/* 容器和間距設置 */
+.booking-detail-1 {
+  display: flex;
+  width: 980px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto; /* 居中對齊 */
+}
+
+/* 圖片的設置 */
+.booking-image-container {
+  width: 250px;
+  height: 200px;
+}
+
+/* 圖片的設置 */
+#attraction-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 確保圖片不變形 */
+}
+
+/* 大螢幕 */
+@media (min-width: 1200px) {
+}
+
+/* 中螢幕 */
+@media (min-width: 600px) and (max-width: 1199px) {
+  /*booking*/
+
+  .booking-main-content {
+    width: 100%;
+  }
+
+  .booking-main-content-in {
+    width: calc(100% - 20px);
+  }
+
+  .booking-detail-0 {
+    width: 100%;
+    height: auto;
+  }
+
+  .booking-detail-0in {
+    line-height: 20px;
+  }
+
+  .booking-detail-1 {
+    flex-direction: column; /* 堆疊元素以避免橫向超出 */
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+  .booking-info {
+    width: 100%;
+    margin: 0;
+    position: relative; /* 設置相對定位 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    margin-bottom: 30px;
+  }
+
+  .booking-info-img {
+    position: absolute; /* 設置絕對定位 */
+    top: 170px; /* 距離下方 0px */
+    right: 0px; /* 距離右方 0px */
+    width: 30px; /* 設置按鈕寬度 */
+    height: 30px; /* 設置按鈕高度 */
+    cursor: pointer; /* 設置鼠標樣式 */
+  }
+
+  .booking-detail-1-h2 {
+    width: 100%;
+  }
+
+  .booking-detail-1-p {
+    width: 100%;
+  }
+  .booking-image-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center; /* 垂直置中 */
+    justify-content: left; /* 水平置中 */
+    overflow: hidden; /* 超出部分隱藏 */
+    margin: auto;
+    margin-bottom: 30px;
+    margin-right: 0px;
+  }
+
+  #attraction-image {
+    height: auto; /* 高度自動 */
+    width: auto; /* 寬度自動 */
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+  }
+
+  .booking-detail-2 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .booking-detail-3 {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .booking-detail-4 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .booking-detail-2-h4 {
+    white-space: normal; /* 允許換行 */
+    overflow-wrap: break-word; /* 斷字換行 */
+    line-height: 20px;
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+
+/* 小螢幕 */
+@media (min-width: 360px) and (max-width: 599px) {
+  /*booking*/
+
+  .booking-main-content {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+  }
+
+  .booking-main-content-in {
+    width: calc(100% - 20px);
+  }
+
+  .booking-detail-0 {
+    width: 100%;
+    height: auto;
+  }
+
+  .booking-detail-0in {
+    line-height: 20px;
+  }
+
+  .booking-detail-1 {
+    flex-direction: column; /* 堆疊元素以避免橫向超出 */
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+  .booking-info {
+    width: 100%;
+
+    margin: 0;
+  }
+
+  .booking-info {
+    width: 100%;
+    margin: 0;
+    position: relative; /* 設置相對定位 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    margin-bottom: 30px;
+  }
+
+  .booking-info-img {
+    position: absolute; /* 設置絕對定位 */
+    top: 170px; /* 距離下方 0px */
+    right: 0px; /* 距離右方 0px */
+    width: 30px; /* 設置按鈕寬度 */
+    height: 30px; /* 設置按鈕高度 */
+    cursor: pointer; /* 設置鼠標樣式 */
+  }
+
+  .booking-detail-1-h2 {
+    width: 100%;
+  }
+
+  .booking-detail-1-p {
+    width: 100%;
+  }
+  .booking-image-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    overflow: hidden; /* 超出部分隱藏 */
+    margin: auto;
+    margin-bottom: 30px;
+    margin-right: 0px;
+  }
+
+  #attraction-image {
+    height: auto; /* 高度自動 */
+    width: auto; /* 寬度自動 */
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+  }
+
+  .booking-detail-2 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .booking-detail-3 {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .booking-detail-4 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .booking-detail-2-h4 {
+    white-space: normal; /* 允許換行 */
+    overflow-wrap: break-word; /* 斷字換行 */
+    line-height: 20px;
+    width: 100%;
+    margin-left: 0px;
+  }
+}

@@ -1,19 +1,25 @@
 
-from fastapi import FastAPI, Request, HTTPException, Query   
+from fastapi import FastAPI, Request, HTTPException, Query, status   
 from fastapi.responses import FileResponse, JSONResponse
 from typing import Optional
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import json
 from fastapi.staticfiles import StaticFiles
+from fastapi.exceptions import RequestValidationError
 
 from user_routes import router as user_router
+from booking_routes import router as booking_router
+
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 app=FastAPI()
 # 服務靜態文件
 app.mount("/static", StaticFiles(directory="static"), name="static")
 # 包含用戶相關的路由
 app.include_router(user_router, prefix="/api")
+app.include_router(booking_router, prefix="/api")
 
 
 # 初始化連接池
@@ -183,7 +189,6 @@ async def get_attraction(attractionId: int):
 
 
 
-
 # 捷運站列表 API
 @app.get("/api/mrts{trailing_slash:path}")
 async def get_mrts():
@@ -213,3 +218,24 @@ async def get_mrts():
     finally:
         cursor.close()
         conn.close()
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    errors = exc.errors()
+    error_messages = [{"field": err["loc"][1], "message": err["msg"]} for err in errors]
+    return JSONResponse(
+        status_code=400,
+        content={"error": True, "message": "所有欄位必須填寫完整。", "details": error_messages}
+#        content={"error": True, "message": "所有欄位必須填寫完整。"}
+    )
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": True, "message": exc.detail},
+        headers=exc.headers
+    )
+
+
