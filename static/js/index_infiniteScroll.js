@@ -1,14 +1,10 @@
-//[1] 下拉加載和 [2] 捷運站快捷鍵 待整理
+//index.html [1] 下拉加載和 [2] 捷運站快捷鍵
 
+//[1] 下拉加載
 let page = 0;
 const limit = 12;
 let nextPage = 0;
 let isLoading = false; // 狀態標誌，表明是否正在加載數據
-let lastScrollTop = 0; // 保存最後滾動位置
-const mrtList = document.getElementById("mrt-list");
-const searchForm = document.getElementById("search-form");
-const searchInput = document.getElementById("search-input");
-const mrtStations = document.getElementById("mrt-stations");
 
 function throttle(func, limit) {
   let lastFunc;
@@ -130,33 +126,6 @@ function loadMoreData(query = "") {
     });
 }
 
-function loadMRTStations() {
-  fetch("/api/mrts")
-    .then((response) => response.json())
-    .then((data) => {
-      data.data.forEach((station) => {
-        const div = document.createElement("div");
-        div.className = "mrt-station";
-        div.textContent = station;
-        div.addEventListener("click", () => {
-          searchInput.value = station;
-          page = 0;
-          nextPage = 0; // 重置下一頁參數
-          isLoading = false; // 允許新的加載
-          loadMoreData(station);
-        });
-        mrtStations.appendChild(div);
-      });
-    });
-}
-
-searchForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const query = searchInput.value.trim();
-  page = 0;
-  loadMoreData(query);
-});
-
 window.addEventListener("scroll", () => {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 20) {
     // 微調以觸發滾動
@@ -170,13 +139,3 @@ window.addEventListener("scroll", () => {
 
 // 初始加載數據和捷運站名
 loadMoreData();
-loadMRTStations();
-
-// 左右箭頭滾動捷運站名列表
-document.getElementById("left-arrow").addEventListener("click", () => {
-  mrtStations.scrollBy({ left: -1000, behavior: "smooth" });
-});
-
-document.getElementById("right-arrow").addEventListener("click", () => {
-  mrtStations.scrollBy({ left: 1000, behavior: "smooth" });
-});

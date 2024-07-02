@@ -141,8 +141,6 @@ function loadMRTStations() {
         div.addEventListener("click", () => {
           searchInput.value = station;
           page = 0;
-          nextPage = 0; // 重置下一頁參數
-          isLoading = false; // 允許新的加載
           loadMoreData(station);
         });
         mrtStations.appendChild(div);

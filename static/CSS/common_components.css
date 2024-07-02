@@ -1,5 +1,6 @@
 /* 瀏覽器的預設樣式有margin
     可以在CSS中為 <body> 標籤設定 margin: 0; 來移除這些邊距。
+
 ############################################################# */
 
 html,
@@ -8,12 +9,12 @@ body {
   padding: 0;
   box-sizing: border-box; /* 使用border-box盒模型 */
   font-family: "Noto Sans TC", sans-serif;
-  display: flex;
-  flex-direction: column;
 }
 
 body {
   min-height: 100vh; /* 確保頁面高度至少為視窗高度 */
+  display: flex;
+  flex-direction: column; /* 版面過小的時候頁末可以卡在底部 */
 }
 
 /* 導航欄樣式
@@ -83,10 +84,8 @@ body {
 .navbar-menu-content a {
   line-height: 13.3px;
   width: auto; /* 或者給一個固定值，看情況調整 */
-  padding-top: 10px; /* 上下padding為10px */
-  padding-bottom: 10px; /* 上下padding為10px */
-  padding-right: 9.5px; /* 上下padding為10px */
-  padding-left: 9.5px; /* 上下padding為10px */
+  padding: 10px 9.5px; /* 上下10px 左右9.5px，主要是小螢幕10px會導致換行，*/
+
   color: #666666; /* 文字顏色為黑色 */
   font-size: 16px;
   font-weight: 500;
@@ -125,8 +124,7 @@ body {
   background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
   height: 10px;
   width: 100%; /* 設置寬度為 100% */
-  border-top-left-radius: 5px; /* 上面兩個角是圓的 */
-  border-top-right-radius: 5px; /* 上面兩個角是圓的 */
+  border-radius: 0 0 5px 5px; /* 上面兩個角是圓的 */
   margin-bottom: 0px; /* 取消底部間距 */
 }
 
@@ -135,8 +133,8 @@ body {
   background-color: #fefefe;
   width: 100%; /* 設置寬度為 100% */
   box-shadow: 0px 4px 60px 0px #aaaaaa; /* 陰影 */
-  border-bottom-left-radius: 5px; /* 下面兩個角是圓的 */
-  border-bottom-right-radius: 5px; /* 下面兩個角是圓的 */
+  border-radius: 0 0 5px 5px; /* 下面兩個角是圓的 */
+
   position: relative;
   padding: 0px;
   display: flex;

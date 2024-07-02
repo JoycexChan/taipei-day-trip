@@ -19,8 +19,10 @@
 }
 
 .booking-main-content-in {
-  width: 1000px;
-
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 從頂部開始排列 */
   align-items: center; /* 水平居中 */
 }
 
@@ -68,6 +70,10 @@
 }
 
 .booking-detail-0-no {
+  width: 1000px;
+}
+
+.booking-detail-0-noin {
   height: 24px;
 
   margin-bottom: 40px;
@@ -256,6 +262,7 @@
 
   .booking-main-content {
     width: 100%;
+    max-width: 800px;
   }
 
   .booking-main-content-in {
@@ -270,7 +277,9 @@
   .booking-detail-0in {
     line-height: 20px;
   }
-
+  .booking-detail-0-no {
+    width: 100%;
+  }
   .booking-detail-1 {
     flex-direction: column; /* 堆疊元素以避免橫向超出 */
     width: 100%;
@@ -337,12 +346,29 @@
     margin-left: 0px;
   }
 
+  .booking-detail-2-h3 {
+    white-space: normal; /* 允許換行 */
+    overflow-wrap: break-word; /* 斷字換行 */
+    line-height: 20px;
+    width: 100%;
+    margin-left: 0px;
+  }
   .booking-detail-2-h4 {
     white-space: normal; /* 允許換行 */
     overflow-wrap: break-word; /* 斷字換行 */
     line-height: 20px;
     width: 100%;
     margin-left: 0px;
+  }
+
+  .divider1,
+  .divider2,
+  .divider3 {
+    width: 100%;
+  }
+
+  .form-group {
+    width: 100%;
   }
 }
 
@@ -366,6 +392,9 @@
 
   .booking-detail-0in {
     line-height: 20px;
+  }
+  .booking-detail-0-no {
+    width: 100%;
   }
 
   .booking-detail-1 {
@@ -439,11 +468,28 @@
     margin-left: 0px;
   }
 
+  .booking-detail-2-h3 {
+    white-space: normal; /* 允許換行 */
+    overflow-wrap: break-word; /* 斷字換行 */
+    line-height: 20px;
+    width: 100%;
+    margin-left: 0px;
+  }
   .booking-detail-2-h4 {
     white-space: normal; /* 允許換行 */
     overflow-wrap: break-word; /* 斷字換行 */
     line-height: 20px;
     width: 100%;
     margin-left: 0px;
+  }
+
+  .divider1,
+  .divider2,
+  .divider3 {
+    width: 100%;
+  }
+
+  .form-group {
+    width: 100%;
   }
 }

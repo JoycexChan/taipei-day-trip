@@ -295,21 +295,6 @@
   color: inherit; /* 繼承父元素的文字顏色，保持顏色一致 */
 }
 
-/* 版權信息樣式 
-############################################################# */
-.copyright {
-  width: 100%; /* 設定寬度為螢幕寬度 */
-
-  background-color: #757575; /* 底色 */
-  color: white; /* 文字顏色為白色 */
-  text-align: center; /* 文字置中 */
-  display: flex; /* 使用Flexbox布局 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-  min-height: 104px; /* 設置最小高度 */
-  margin-top: auto; /* 確保頁腳位於頁面底部 */
-}
-
 /* 基本樣式 */
 
 #mrt-list {
