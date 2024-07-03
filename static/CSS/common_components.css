@@ -1,0 +1,333 @@
+/* 瀏覽器的預設樣式有margin
+    可以在CSS中為 <body> 標籤設定 margin: 0; 來移除這些邊距。
+
+############################################################# */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 使用border-box盒模型 */
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+body {
+  min-height: 100vh; /* 確保頁面高度至少為視窗高度 */
+  display: flex;
+  flex-direction: column; /* 版面過小的時候頁末可以卡在底部 */
+}
+
+/* 導航欄樣式
+############################################################# */
+.navbar-wrapper {
+  position: fixed; /* 固定位置 */
+  top: 0; /* 與頂部距離為 0 */
+  width: 100%; /* 寬度佔據整個屏幕 */
+  height: 54px; /* 高度固定 */
+  z-index: 1000; /* 層次高於一般內容 */
+
+  background-color: #ffffff; /* 設定背景色 */
+  overflow: hidden; /* 隱藏溢出部分 */
+  border-bottom: 1px solid #ddd; /* 設置底部邊框為1像素實線，顏色為淺灰色 */
+}
+
+.navbar-content {
+  position: fixed; /* 固定位置 */
+
+  width: 100%; /* 寬度佔據整個屏幕 */
+  height: 54px; /* 設定高度為 54px */
+  max-width: 1200px; /* 最大寬度為1200px */
+  left: 50%; /* 左側設為50% */
+  transform: translateX(-50%); /* X軸偏移-50%，確保準確居中 */
+
+  display: flex; /* 使用 Flexbox 顯示彈性容器 */
+  justify-content: space-between; /* 在容器內的元素間均勻分布空間 */
+  align-items: center;
+}
+
+.navbar-content a {
+  width: 150px; /* 固定寬度 */
+  height: 34px; /* 固定高度 */
+  line-height: 34px;
+  text-decoration: none; /* 移除文字下劃線 */
+  text-align: center; /* 文字居中對齊 */
+
+  font-size: 30px;
+  font-weight: 700;
+  color: #448899;
+}
+
+.navbar-content a:hover {
+  color: black; /* 文字顏色變為黑色 */
+}
+
+.navbar-logo {
+  width: 150px; /* 固定寬度 */
+  height: 34px; /* 固定高度 */
+  display: block; /* 使元素為塊級元素，可獨占一行 */
+  padding: 0 10px; /* 左右內邊距，根據需要調整 */
+
+  font-size: 30px; /* 設定字體大小 */
+  font-weight: 700; /* 字體粗細，對應 weight 為 700 (Bold) */
+  line-height: 34px; /* 行高 */
+  text-align: left; /* 左對齊 */
+}
+
+.navbar-menu-content {
+  width: 175px;
+  height: 34px; /* 固定高度 */
+  display: flex; /* 使用Flex布局 */
+  justify-content: space-between; /* 內部元素間距均勻分布 */
+  width: auto; /* 寬度自適應內部內容 */
+}
+
+.navbar-menu-content a {
+  line-height: 13.3px;
+  width: auto; /* 或者給一個固定值，看情況調整 */
+  padding: 10px 9.5px; /* 上下10px 左右9.5px，主要是小螢幕10px會導致換行，*/
+
+  color: #666666; /* 文字顏色為黑色 */
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none; /* 移除文字下劃線 */
+  text-align: center; /* 文字居中對齊 */
+  display: block; /* 塊狀元素，占滿可用空間 */
+  text-decoration: none; /* 移除底線 */
+}
+
+/* 模態窗口的基本樣式 */
+.modal {
+  display: none; /* 隱藏模態窗口 */
+  position: fixed; /* 固定定位 */
+  z-index: 1; /* 位於頂層 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* 可滾動的 */
+  background-color: rgba(0, 0, 0, 0.4); /* 背景透明度 */
+}
+
+/* 模態窗口容器 */
+.modal-container {
+  margin: 80px auto; /* 中央顯示 */
+  width: 340px; /* 寬度 */
+  height: 100%; /* 高度 */
+  background-color: transparent; /* 背景顏色 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 模態窗口頭部 */
+.modal-header {
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  height: 10px;
+  width: 100%; /* 設置寬度為 100% */
+  border-radius: 0 0 5px 5px; /* 上面兩個角是圓的 */
+  margin-bottom: 0px; /* 取消底部間距 */
+}
+
+/* 模態窗口內容 */
+.modal-content {
+  background-color: #fefefe;
+  width: 100%; /* 設置寬度為 100% */
+  box-shadow: 0px 4px 60px 0px #aaaaaa; /* 陰影 */
+  border-radius: 0 0 5px 5px; /* 下面兩個角是圓的 */
+
+  position: relative;
+  padding: 0px;
+  display: flex;
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+}
+
+/* 模態窗口內容 */
+.modal-body {
+  padding: 0px;
+  background-color: white;
+
+  width: 310px;
+  margin: 15px auto;
+  position: relative;
+}
+
+/* 關閉按鈕 */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 表單標題 */
+.modal-body h2 {
+  text-align: center;
+  margin: 0; /* 取消默認的標題間距 */
+  height: 27px; /* 設置高度 */
+  margin-bottom: 15px; /* 下間距 */
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #666666;
+}
+
+/* 輸入框 */
+.modal-body input[type="text"],
+.modal-body input[type="password"] {
+  width: 100%;
+  height: 47px; /* 設置高度 */
+  padding: 12px;
+  margin-bottom: 10px; /* 下間距 */
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+  text-align: left;
+  color: #757575;
+}
+
+/* 登入按鈕 */
+.modal-body button[type="button"] {
+  background-color: #448899;
+  color: white;
+  height: 47px; /* 設置高度 */
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 5px; /* 为按钮设置所有边距为零 */
+  border-radius: 5px;
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* 註冊按鈕 */
+
+.modal-body button.register,
+.modal-body button.login {
+  background-color: #ffffff;
+  height: 22px; /* 設置高度 */
+  color: #666666;
+  margin: 0; /* 为按钮设置所有边距为零 */
+  margin-top: 5px; /* 为按钮设置所有边距为零 */
+  padding: 0; /* 为按钮设置所有内边距为零 */
+
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+}
+
+/* 錯誤信息 */
+.error {
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  line-height: 36px; /* 行高設為10px */
+  margin: 0; /* 移除邊距 */
+  padding: 0; /* 移除內距 */
+}
+
+.success {
+  color: green;
+  text-align: center;
+  font-size: 16px;
+  line-height: 36px; /* 行高設為10px */
+  margin: 0;
+  padding: 0; /* 移除內距 */
+}
+
+.link-container {
+  position: relative;
+  width: 91px;
+  height: 34px;
+}
+
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.link.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 版權信息樣式 
+############################################################# */
+.copyright {
+  width: 100%; /* 設定寬度為螢幕寬度 */
+
+  background-color: #757575; /* 底色 */
+  color: white; /* 文字顏色為白色 */
+  text-align: center; /* 文字置中 */
+  display: flex; /* 使用Flexbox布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  min-height: 104px; /* 設置最小高度 */
+  margin-top: auto; /* 確保頁腳位於頁面底部 */
+}
+
+/* 基本样式 */
+.main-content {
+  padding: 40px 0; /* 上下40px內邊距，左右無需特定 */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; /* 居中 */
+}
+
+/* 大螢幕 */
+@media (min-width: 1200px) {
+}
+
+/* 中螢幕 */
+@media (min-width: 600px) and (max-width: 1199px) {
+  .main-content {
+    width: 95%;
+  }
+}
+
+/* 小螢幕 */
+@media (min-width: 360px) and (max-width: 599px) {
+  .navbar-menu-content {
+    white-space: nowrap; /* 防止文字自動換行 */
+    overflow: hidden; /* 隱藏溢出容器的文字 */
+    text-overflow: ellipsis; /* 在被截斷的文本尾部顯示省略符號 */
+  }
+  .navbar-logo {
+    white-space: nowrap; /* 防止文字自動換行 */
+    overflow: hidden; /* 隱藏溢出容器的文字 */
+    text-overflow: ellipsis; /* 在被截斷的文本尾部顯示省略符號 */
+  }
+
+  .main-content {
+    width: 95%;
+  }
+
+  .copyright {
+    bottom: 0px;
+  }
+}

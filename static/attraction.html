@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attraction</title>
-    <link rel="stylesheet" href="/static/CSS/styles.css" />
-    <script src="/static/js/login_functions.js" defer></script>
-    <script src="/static/js/script_attraction.js" defer></script>
+    <!-- <link rel="stylesheet" href="/static/CSS/styles.css" /> -->
+    <link rel="stylesheet" href="/static/CSS/common_components.css" />
+    <link rel="stylesheet" href="/static/CSS/attraction_components.css" />
+    <script type="module" src="/static/js/login_functions.js" defer></script>
+    <script type="module" src="/static/js/script_attraction.js" defer></script>
   </head>
   <body>
     <!-- 導航欄開始 -->
@@ -14,7 +16,7 @@
       <div class="navbar-content">
         <a href="/" class="navbar-logo">台北一日遊</a>
         <div class="navbar-menu-content">
-          <a href="#Item1">預定行程</a>
+          <a href="/booking" id="bookTrip" class="booking-link">預定行程</a>
           <div id="linkContainer" class="link-container">
             <a href="#Item2" id="loginRegisterLink" class="link">登入/註冊</a>
             <a href="#Item2" id="logoutLink" class="link" style="display: none"
@@ -149,7 +151,7 @@
               />
             </div>
             <div class="welcome-guidedtours-reserve">
-              <button type="submit">開始預約行程</button>
+              <button type="submit" id="startBooking">開始預約行程</button>
             </div>
           </div>
         </div>

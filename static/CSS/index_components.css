@@ -1,0 +1,369 @@
+/* 歡迎文本樣式 
+############################################################# */
+
+.welcome {
+  position: relative; /* 相對定位，用於定位內部元素 */
+  height: 320px; /* 固定高度 */
+  width: 100%; /* 寬度根據螢幕寬度變動 */
+  background-image: url("/static/images/welcome.png"); /* 設定背景圖片 */
+  background-size: cover; /* 覆蓋整個容器，保持原始比例 */
+  background-position: top left; /* 背景圖片置中置上 */
+  display: flex; /* 使用 Flexbox 以便於對內部文字進行排列 */
+  align-items: center; /* 垂直置中 */
+  justify-content: center; /* 水平置中 */
+  color: white; /* 文字顏色設為白色 */
+  overflow: hidden; /* 隱藏超出部分，用於裁剪 */
+  margin-top: 54px; /* 上邊距為54px */
+}
+
+.welcome-center-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; /* 或其他適合的寬度 */
+  max-width: 1200px; /* 不超過背景圖片的最大寬度 */
+}
+
+.welcome-center-content h2 {
+  width: 100%; /* 寬度填滿父容器 */
+  font-family: "Noto Sans TC";
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #ffffff; /* 白色文字 */
+  margin-bottom: 20px; /* 與下方元素的間距 */
+  padding-left: 10px;
+}
+
+.welcome-center-content p {
+  font-family: "Noto Sans TC";
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff; /* 白色文字 */
+  margin-bottom: 20px; /* 與下方元素的間距 */
+  padding-left: 10px;
+}
+
+.welcome-center-content form {
+  display: flex;
+  gap: 0px; /* 搜索框與按鈕間的間隔 */
+  padding-left: 10px;
+}
+
+.welcome-center-content input[type="text"] {
+  width: 400px; /* 設定寬度為 400px */
+  height: 46px; /* 設定高度為 46px */
+  padding: 0 10px; /* 內部左右留空間 */
+  border: none; /* 取消邊框 */
+  outline: none; /* 點擊時無輪廓 */
+  padding-left: 10px;
+  border-radius: 5px 0 0 5px; /* 只在左侧设置圆角 */
+  font-size: 16px;
+}
+
+.welcome-center-content button {
+  width: 60px; /* 按鈕寬度為 60px */
+  height: 46px; /* 按鈕高度為 46px */
+  background-color: #448899; /* 按鈕背景顏色 */
+  border: none; /* 取消邊框 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 鼠標樣式為指針 */
+  border-radius: 0 5px 5px 0; /* 只在右側設置圓角 */
+  padding-left: 10px;
+}
+
+.welcome-center-content button img {
+  width: 30px; /* 圖標大小 */
+  height: 30px;
+}
+
+/* mrt樣式
+############################################################# */
+
+.mrt-stations-wrapper {
+  max-width: 1200px;
+  width: 100%;
+  height: auto; /* 這裡使用 auto 以適應內部高度 */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.mrt-stations {
+  display: flex;
+  overflow-x: scroll; /* 允許水平滾動 */
+  white-space: nowrap; /* 防止換行 單行顯示 */
+  max-width: 100%;
+  flex-grow: 1; /* 允許元素填充剩餘空間 */
+  height: 50px;
+  padding: 0 10px 20px 10px; /* 上0px，左右10px，下20px */
+
+  align-items: center; /* 垂直居中 */
+  overflow: hidden; /* 隱藏滾動條 */
+  scroll-behavior: smooth; /* 添加平滑滾動效果 */
+}
+
+.mrt-station {
+  cursor: pointer;
+  align-items: center; /* 垂直居中 */
+  margin-right: 10px;
+  flex: 0 0 auto;
+  padding: 5px 15px;
+  margin-right: 10px; /* 根據需要調整間距 */
+  background-color: #ffffff;
+  color: #666666; /* 文字顏色為灰 */
+  border-radius: 5px; /* 圓角邊框 */
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* 背景色平滑過度 */
+  transition: transform 0.3s ease-out; /* 添加過度效果使元素變形更平滑 */
+}
+
+.mrt-station:hover,
+.mrt-station:active {
+  background-color: #ffffff;
+  color: #000000; /* 鼠標懸停或者點擊的顏色變為黑色 */
+}
+
+.arrow {
+  cursor: pointer;
+  top: 0; /* 置頂 */
+  user-select: none;
+  width: 47px;
+  height: 50px;
+  display: flex;
+}
+
+.arrow img {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5; /* 未懸停時的透明度為 50% */
+  transition: opacity 0.3s ease; /* 平滑過渡效果 */
+  vertical-align: top; /* 讓圖片對齊頂部 */
+}
+
+.arrow:hover img {
+  opacity: 1; /* 懸停時恢復原始透明度，顯示為原始黑色 */
+}
+.arrow.right {
+  padding: 9px 15px 9px 0px;
+}
+
+.arrow.right img {
+  transform: scaleX(-1);
+}
+
+.arrow.left {
+  padding: 9px 0px 9px 15px;
+}
+
+/* attraction樣式
+############################################################# */
+
+/* 景點卡片 */
+.attraction-card {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* 隐藏溢出的内容 */
+  position: relative;
+  background-color: #ffffff;
+}
+
+.image-overlay-wrapper {
+  position: relative;
+  width: 100%; /* 容器寬度和父元件一樣 */
+  height: 197px; /* 根據圖片容器的高度設定 */
+}
+
+.attraction-image-container {
+  width: 100%;
+  height: 197px; /* 高度固定為197px */
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.attraction-image {
+  width: auto;
+  height: 100%; /* 確保圖片高度始終填滿容器 */
+  min-width: 100%; /* 確保圖片最小寬度至少與容器一樣寬 */
+  object-fit: cover; /* 圖片保持寬高比 */
+  object-position: center; /* 圖片始終居中 */
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute; /* 絕對定位 */
+  bottom: 0; /* 定位到容器底部 */
+  left: 0; /* 定位到容器左邊 */
+  width: 100%; /* 擴展到整個容器寬度 */
+  padding: 10px; /* 適當的內邊距 */
+  box-sizing: border-box; /* 盒模型設定 */
+  left: 0;
+}
+
+.attraction-name-overlay {
+  text-align: center; /* 文本居中對齊 */
+  font-size: 16px; /* 字體大小 */
+  font-weight: bold; /* 粗體 */
+  white-space: nowrap; /* 不換行 */
+  overflow: hidden; /* 隱藏溢出的內容 */
+  text-overflow: ellipsis; /* 顯示省略符號 */
+  width: 100%; /* 寬度設定為 100%，確保滿足容器寬度 */
+}
+
+.attraction-info {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px;
+}
+
+/* 文字樣式 */
+.attraction-info p {
+  margin: 0; /* 移除邊距 */
+  font-size: 16px; /* 字體大小 */
+  line-height: 20px; /* 行高 */
+  color: #333; /* 字體顏色 */
+  display: flex;
+  justify-content: space-between; /* 兩端對齊 */
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 0 0 5px 5px; /* 下方圓角 */
+}
+
+.attraction-name-overlay {
+  text-align: left; /* 文本向左對齊 */
+  width: 100%; /* 讓容器填滿 .overlay */
+}
+
+.attraction-category,
+.attraction-mrt {
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.attraction-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.attraction-mrt {
+  flex-grow: 1; /* 捷運站資訊向左對齊 */
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+}
+
+.attraction-category {
+  flex-grow: 1; /* 類別資訊向右對齊 */
+  text-align: right;
+  font-size: 14px;
+  color: #555;
+}
+
+.attraction-link,
+.attraction-link:visited {
+  /* 直接目標 <a> 標籤 */
+  text-decoration: none; /* 移除連結底線 */
+  color: inherit; /* 繼承父元素的文字顏色，保持顏色一致 */
+}
+
+/* 基本樣式 */
+
+#mrt-list {
+  padding: 15px;
+  display: grid;
+  max-width: 1200px;
+  gap: 40px; /* 统一设置间距为 40px */
+  justify-content: center; /* 新增此行以水平置中 */
+}
+
+/* 大螢幕 */
+@media (min-width: 1200px) {
+  #mrt-list {
+    grid-template-columns: repeat(4, 1fr); /* 每行顯示 4 个元素 */
+  }
+
+  .attraction-image-container {
+    height: 197px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .welcome-guidedtours-text2 {
+    white-space: nowrap; /* 不允許換行 */
+    overflow: hidden; /* 隱藏溢出部分 */
+    text-overflow: ellipsis; /* 溢出顯示省略符號 */
+  }
+}
+
+/* 中螢幕 */
+@media (min-width: 600px) and (max-width: 1199px) {
+  #mrt-list {
+    grid-template-columns: repeat(2, 1fr); /* 每行顯示 2 个元素 */
+  }
+
+  .image-overlay-wrapper {
+    position: relative;
+    width: 100%; /* 容器寬度和父元件一樣 */
+    height: 235px; /* 根據圖片容器的高度設定 */
+  }
+
+  .attraction-image-container {
+    height: 235px;
+    overflow: hidden;
+    width: 100%;
+  }
+  .attraction-card {
+    height: 280px; /* 根據圖片容器的高度設定 */
+  }
+}
+
+/* 小螢幕 */
+@media (min-width: 360px) and (max-width: 599px) {
+  #mrt-list {
+    grid-template-columns: repeat(1, 1fr); /* 每行顯示 1 个元素 */
+  }
+  .image-overlay-wrapper {
+    position: relative;
+    width: 100%; /* 容器寬度和父元件一樣 */
+    height: 235px; /* 根據圖片容器的高度設定 */
+  }
+
+  .attraction-image-container {
+    height: 235px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .attraction-card {
+    height: 280px; /* 根據圖片容器的高度設定 */
+  }
+}
