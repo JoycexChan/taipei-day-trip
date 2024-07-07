@@ -148,6 +148,9 @@
   width: 980px;
   height: 38px;
   margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 .form-group label {
   font-size: 16px;
@@ -157,6 +160,19 @@
 }
 
 .form-group input {
+  height: 18px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc; /* 設置邊框顏色 */
+  box-shadow: none; /* 去除陰影 */
+}
+
+.tpfield {
+  width: 166px;
   height: 18px;
   font-size: 16px;
   font-weight: 500;

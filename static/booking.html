@@ -7,10 +7,17 @@
     <!-- <link rel="stylesheet" href="/static/CSS/styles.css" /> -->
     <link rel="stylesheet" href="/static/CSS/common_components.css" />
     <link rel="stylesheet" href="/static/CSS/booking_components.css" />
+    <script src="https://js.tappaysdk.com/tpdirect/v5.1.0"></script>
+    <!-- <script>
+        TPDirect.setupSDK(151723, 'app_bOMzvdEJJRo34omSfQ3HA7hyjnSADrWmCA450aeFOgNgTcou6ig4qPG5a4Te', 'sandbox')
+//     測試時請使用 Sandbox 環境 (‘sandbox’)
+// 實體上線後請切換至 Production 環境 ('production’)
+    </script> -->
     <script type="module" src="/static/js/login_functions.js" defer></script>
     <!-- <script src="/static/js/0_auth_redirect.js" defer></script>
      只要沒有登入 任何頁面都會返回首頁 -->
     <script type="module" src="/static/js/script_booking.js" defer></script>
+    <script type="module" src="/static/js/booking_tpdirect.js" defer></script>
   </head>
   <body>
     <!-- 導航欄開始 -->
@@ -169,25 +176,22 @@
         <div class="booking-detail-3">
 
             <div class="booking-detail-2-h3">信用卡付款資訊</div>
+            <!-- <div id="cardview-container" class="tpfield"></div> -->
             <form id="payment-info-form">
               <div class="form-group">
-                <label for="card-number">卡片號碼：</label>
-                <input
-                  type="text"
-                  id="card-number"
-                  placeholder="**** **** **** ****"
-                />
+                  <label for="card-number">卡片號碼：</label>
+                  <div id="card-number" class="tpfield"></div>
               </div>
               <div class="form-group">
-                <label for="card-expiry">過期時間：</label>
-                <input type="text" id="card-expiry" placeholder="MM / YY" />
+                  <label for="card-expiration-date">過期時間：</label>
+                  <div id="card-expiration-date" class="tpfield"></div>
               </div>
               <div class="form-group">
-                <label for="card-cvv">驗證密碼：</label>
-                <input type="text" id="card-cvv" placeholder="CVV" />
+                  <label for="card-ccv">驗證密碼：</label>
+                  <div id="card-ccv" class="tpfield"></div>
               </div>
-            </form>
-
+          </form>
+      </div>
         </div>
 
         <div class="divider3"></div>
