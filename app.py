@@ -13,6 +13,10 @@ from booking_routes import router as booking_router
 
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from order_number_generator import generate_order_number
+
+from pydantic import BaseModel
+import requests
 
 app=FastAPI()
 # 服務靜態文件
@@ -239,3 +243,102 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     )
 
 
+# 定義接收前端支付請求的數據模型
+class Cardholder(BaseModel):
+    phone_number: str
+    name: str
+    email: str
+
+
+class PaymentRequest(BaseModel):
+    prime: str
+    amount: int
+    cardholder: Cardholder
+
+# 定義支付結果的數據模型
+class PaymentResponse(BaseModel):
+    status: int
+    msg: str
+    rec_trade_id: str = ""
+    bank_transaction_id: str = ""
+    auth_code: str = ""
+    order_number: str = ""  
+
+@app.post("/api/pay", response_model=PaymentResponse)
+def process_payment(payment_request: PaymentRequest):
+    conn = get_database_connection()
+    cursor = conn.cursor()
+
+    try:
+        # 生成訂單號
+        order_number = generate_order_number()
+
+        # 將訂單資料插入到 orders 表
+        cursor.execute(
+            "INSERT INTO orders (order_number, user_id, total_amount, status) VALUES (%s, %s, %s, %s)",
+            (order_number, 1, payment_request.amount, 'pending')
+        )
+        order_id = cursor.lastrowid
+
+        # 設置支付資料
+        payment_data = {
+            "prime": payment_request.prime,
+            "partner_key": "partner_2wSfW6bUI3Mnch2z8LfgtMNKBwN3XugqpgoqcVV1kFnlkBpHPF2cqqqP",
+            "merchant_id": "joyce770109_FUBON_POS_1",
+            "details": "Order Payment",
+            "amount": payment_request.amount,
+            "cardholder": payment_request.cardholder.model_dump(),
+            "remember": False
+        }
+
+        response = requests.post(
+            "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime",
+            json=payment_data,
+            headers={
+                "Content-Type": "application/json",
+                "x-api-key": "partner_2wSfW6bUI3Mnch2z8LfgtMNKBwN3XugqpgoqcVV1kFnlkBpHPF2cqqqP"
+            }
+        )
+
+        result = response.json()
+        if result["status"] != 0:
+            raise HTTPException(status_code=400, detail=result["msg"])
+        
+        # 更新訂單狀態
+        cursor.execute(
+            "UPDATE orders SET status = 'paid' WHERE id = %s",
+            (order_id,)
+        )
+
+        # 插入支付資料到 payments 表
+        cursor.execute(
+            "INSERT INTO payments (order_id, prime, rec_trade_id, bank_transaction_id, amount, status, message) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (order_id, payment_request.prime, result.get("rec_trade_id", ""), result.get("bank_transaction_id", ""), payment_request.amount, 'success', result["msg"])
+        )
+
+        # 插入持卡人資料到 cardholders 表
+        cursor.execute(
+            "INSERT INTO cardholders (order_id, phone_number, name, email) VALUES (%s, %s, %s, %s)",
+            (order_id, payment_request.cardholder.phone_number, payment_request.cardholder.name, payment_request.cardholder.email)
+        )
+
+        conn.commit()
+
+        return PaymentResponse(
+            status=result["status"],
+            msg=result["msg"],
+            rec_trade_id=result.get("rec_trade_id", ""),
+            bank_transaction_id=result.get("bank_transaction_id", ""),
+            auth_code=result.get("auth_code", ""),
+            order_number=order_number
+        )
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

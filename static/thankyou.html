@@ -1,11 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank You</title>
+
+    <!-- <link rel="stylesheet" href="/static/CSS/styles.css" /> -->
+    <link rel="stylesheet" href="/static/CSS/common_components.css" />
+    <link rel="stylesheet" href="/static/CSS/thanks_components.css" />
+
+    <script type="module" src="/static/js/login_functions.js" defer></script>
+    <script src="/static/js/0_auth_redirect.js" defer></script>
+    <!-- 只要沒有登入 任何頁面都會返回首頁 -->
+    <script type="module" src="/static/js/script_thanks.js" defer></script>
+  </head>
+  <body>
+    <!-- 導航欄開始 -->
+    <div class="navbar-wrapper">
+      <div class="navbar-content">
+        <a href="/" class="navbar-logo">台北一日遊</a>
+        <div class="navbar-menu-content">
+          <a href="/booking" id="bookTrip" class="booking-link">預定行程</a>
+          <div id="linkContainer" class="link-container">
+            <a href="#Item2" id="loginRegisterLink" class="link">登入/註冊</a>
+            <a href="#Item2" id="logoutLink" class="link" style="display: none"
+              >登出系統</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 導航欄結束 -->
+    <!-- 模態窗口 -->
+    <div id="myModal" class="modal">
+      <div class="modal-container">
+        <div class="modal-header"></div>
+        <div class="modal-content">
+          <div class="modal-body">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+              <h2>登入會員帳號</h2>
+              <input
+                type="text"
+                id="loginEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="login()">登入帳戶</button>
+              <p id="loginSuccess" class="success"></p>
+              <p id="loginError" class="error"></p>
+
+              <button type="button" class="register" onclick="showRegister()">
+                還沒有帳戶？點此註冊
+              </button>
+            </form>
+            <form id="registerForm" style="display: none">
+              <h2>註冊會員帳號</h2>
+              <input
+                type="text"
+                id="registerName"
+                name="name"
+                placeholder="輸入姓名"
+              />
+              <input
+                type="text"
+                id="registerEmail"
+                name="email"
+                placeholder="輸入電子郵件"
+              />
+              <input
+                type="password"
+                id="registerPassword"
+                name="password"
+                placeholder="輸入密碼"
+              />
+              <button type="button" onclick="register()">註冊新帳戶</button>
+              <p id="registerError" class="error"></p>
+              <button type="button" class="login" onclick="showLogin()">
+                已經有帳戶了？點此登入
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thanks-main-content">
+      <div class="thanks-main-content-in">
+        <div class="thanks-detail-0">
+          <div class="thanks-detail-0in">
+            感謝<span id="userName"></span>您的購買！
+          </div>
+        </div>
+
+        <div class="thanks-detail-1">
+          <div class="thanks-detail-1in">
+            您的訂單號碼是：<span id="order-number"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <p>
+      <span id="booking-date"></span> 一起去
+      <a id="attraction-link" href="#">（景點名）</a> 玩吧～～～
+    </p>
+    <button id="share-button">分享至社交媒體</button> -->
+
+    <!-- copyright開始 -->
+    <div class="copyright">COPYRIGHT © 2021 台北一日遊</div>
+    <!-- copyright結束 -->
+  </body>
 </html>

@@ -1,0 +1,133 @@
+.thanks-main-content {
+  margin: 0px auto;
+  margin-top: 94px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中 */
+  justify-content: flex-start; /* 從頂部開始排列 */
+  font-family: "Noto Sans TC", sans-serif; /* 使用 Noto Sans TC 字體 */
+  width: 100%; /* 設置寬度為100% */
+  max-width: 1200px; /* 最大寬度1200px */
+  color: #666666;
+  box-sizing: border-box; /* 確保 padding 和 border 包含在寬度內 */
+}
+
+.thanks-main-content * {
+  color: #666666; /* 設置字體顏色為灰色 */
+}
+
+.thanks-main-content-in {
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 從頂部開始排列 */
+  align-items: center; /* 水平居中 */
+}
+
+.thanks-detail-0 {
+  display: flex;
+  width: 1000px;
+  height: 27px;
+  margin-bottom: 30px;
+}
+
+.thanks-detail-0in {
+  margin-top: 5.5px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: left;
+}
+
+.thanks-detail-1 {
+  width: 1000px;
+}
+
+.thanks-detail-1in {
+  height: 24px;
+
+  margin-bottom: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+}
+
+.thanks-main-content-1,
+.thanks-main-content-2 {
+  height: 24px;
+
+  margin-bottom: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+}
+
+.content-1 {
+  width: 980px;
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+.content-2 {
+  width: 980px;
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+/* 大螢幕 */
+@media (min-width: 1200px) {
+}
+
+/* 中螢幕 */
+@media (min-width: 600px) and (max-width: 1199px) {
+  /*thanks*/
+
+  .thanks-main-content {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .thanks-main-content-in {
+    width: calc(100% - 20px);
+  }
+
+  .thanks-detail-0 {
+    width: 100%;
+    height: auto;
+  }
+
+  .thanks-detail-0in {
+    line-height: 20px;
+  }
+  .thanks-detail-1 {
+    width: 100%;
+  }
+}
+
+/* 小螢幕 */
+@media (min-width: 360px) and (max-width: 599px) {
+  /*booking*/
+
+  .thanks-main-content {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+  }
+
+  .thanks-main-content-in {
+    width: calc(100% - 20px);
+  }
+
+  .thanks-detail-0 {
+    width: 100%;
+    height: auto;
+  }
+
+  .thanks-detail-0in {
+    line-height: 20px;
+  }
+  .thanks-detail-1 {
+    width: 100%;
+  }
+}
